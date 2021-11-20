@@ -1,0 +1,13 @@
+﻿@using VideoHosting.Models.Database.Entities
+@model IEnumerable<VideoPage>
+
+@{
+    ViewBag.Title = "MyVideo";
+}
+
+<h2>MyVideo</h2>
+
+@foreach (var page in Model)
+{
+    @Html.ActionLink(page.VideoName, "Watch", "Video", new { pageId=page.Id }, new { @style="display: block;"});
+}

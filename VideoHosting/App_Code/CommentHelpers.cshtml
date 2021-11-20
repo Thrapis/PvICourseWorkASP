@@ -1,0 +1,32 @@
+﻿
+
+@helper HeadComment(VideoHosting.Models.Database.Entities.Sinthetic.CommentInfo comment)
+{
+    string setTimeTemplate = "<div class='video-set-time' onclick=\"setUserTime('TIME')\">TIME</div>";
+    string text = comment.Text;
+    string pattern = @"([0-5]?\d:[0-5]?\d)";
+    foreach (System.Text.RegularExpressions.Match match in System.Text.RegularExpressions.Regex.Matches(text, pattern))
+    {
+        if (match.Success && match.Groups.Count > 0)
+        {
+            string matchGroup = match.Groups[1].Value;
+            string setTimeFormatted = setTimeTemplate.Replace("TIME", matchGroup);
+            text = text.Replace(matchGroup, setTimeFormatted);
+        }
+    }
+
+    <div class="comment-block">
+        <div class="comment-cloud">
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div class="comment-name-wrap">
+                    <img src="~/Content/Images/user.png" class="comment-photo">
+                    <div class="comment-overtext">@comment.AuthorName</div>
+                </div>
+                <div class="comment-overtext">@comment.CommentDate</div>
+            </div>
+            <hr style="width: auto; margin: 4px;"/>
+            <div class="comment-undertext">@(new HtmlString(text))</div>
+            <hr style="width: auto; margin: 4px;" />
+        </div>
+    </div>
+}

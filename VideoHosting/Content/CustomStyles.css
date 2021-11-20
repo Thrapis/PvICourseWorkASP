@@ -1,0 +1,260 @@
+﻿.login_block {
+    display: flex;
+    flex-direction: row;
+}
+
+.login_text_block {
+    display: flex;
+    flex-direction: column;
+}
+
+.login_row {
+    color: aliceblue;
+    text-align: right;
+    display: block;
+    margin: 3px;
+}
+
+.login_photo {
+    display: inline;
+    background: white;
+    height: 46px;
+    width: 46px;
+    object-fit: cover;
+    margin: 3px 6px;
+    border: inset rgb(43 95 238);
+    border-width: 5px;
+}
+
+.app_ico {
+    height: 46px;
+    width: 46px;
+    object-fit: cover;
+    margin: 3px 12px 3px 0px;
+}
+
+.nav-block-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 50%;
+}
+
+.nav-block-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 50%;
+}
+
+.loading_gif_container {
+    text-align: center;
+}
+
+.loading_gif {
+    height: 46px;
+    width: 46px;
+}
+
+.custom-navbar-color {
+    background: rgb(18 48 131);
+    border-color: rgb(15 41 112);
+}
+
+.improved-btn-link {
+    border: 0;
+    background: transparent;
+}
+
+.video-preview-block {
+    min-height: 190px;
+    min-width: 280px;
+    max-height: 190px;
+    max-width: 280px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.video-preview-name {
+    display: block;
+    color: black;
+}
+
+.video-preview-name:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.video-preview-author-views {
+    display: flex;
+    font-size: 12px;
+    /*padding-left: 4px;*/
+    padding-right: 4px;
+}
+
+.video-preview {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    /*border: 2px solid rgb(0 0 0)*/
+}
+
+.video-preview-thumbnail {
+    max-height: 180px;
+    max-width: 246px;
+}
+
+.cut-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.form-control.test {
+    border: none !important;
+    outline: none !important;
+}
+
+.upload_thumbnail {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 200px;
+}
+
+
+.upload_loading_gif {
+    height: 70px;
+    width: 70px;
+}
+
+.flex-wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.video-set-time {
+    color: blue;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.video-set-time:hover {
+    color: darkslateblue;
+    text-decoration: underline;
+}
+
+.under-video-block {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.under-video-row {
+    margin: 0;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.under-video-col {
+    display: inline;
+}
+
+.account-photo {
+    display: inline;
+    background: white;
+    height: 50px;
+    width: 50px;
+    margin-right: 5px;
+    object-fit: cover;
+    border: inset rgb(43 95 238);
+    border-radius: 25px;
+    border-width: 0px;
+}
+
+.under-video-text {
+    margin: 0;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.btn-add-comment {
+    width: 100%;
+    max-width: 800px;
+    color: rgb(43 95 238);
+    border-color: rgb(43 95 238);
+}
+
+.btn-no-shadow {
+    box-shadow: none !important;
+}
+
+
+.add-comment-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-comment-textarea {
+    resize: none;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 100%;
+    max-width: none;
+    padding: 2px;
+}
+
+.comment-block {
+    margin: 0;
+    padding: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment-cloud {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    padding: 5px;
+    border: 1px solid rgb(43 95 238);
+    border-radius: 10px;
+}
+
+.comment-name-wrap {
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-photo {
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
+
+.comment-overtext {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: 400;
+}
+
+.comment-undertext {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: 500;
+    min-height: 50px;
+}

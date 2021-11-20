@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "VideoLoad";
+    string pageUrl = Url.Action("Watch", "Video", new { pageId = "-" });
+}
+
+<script src="~/Scripts/WebSocket/video-handling-status.js"></script>
+<script type="text/javascript">
+
+    function onFileChoice() {
+        var fullPath = document.getElementById('videoFile').value;
+        if (fullPath) {
+            var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+            var filename = fullPath.substring(startIndex);
+            if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                filename = filename.substring(1);
+            }
+            document.getElementById('videoFileLabel').innerHTML = filename;
+        }
+    }
+
+    function prog() {
+        guid = 'FEwwrtICvrrAEGvArBAGCJGEuBtHBJHt';
+        exe_start(guid);
+    }
+
+    function observeProgress(data, status, xhr) {
+        jsonFile = JSON.parse(data);
+        videoUrl = '@pageUrl'.replace("-", jsonFile['PageId']);
+        linkToVideoPage = document.getElementById('linkToVideoPage');
+        linkToVideoPage.href = videoUrl;
+        linkToVideoPage.innerHTML = location.host + videoUrl;
+        exe_start(jsonFile['PageId']);
+    }
+
+    function disableForm() {
+        document.getElementById('videoFile').disabled = true;
+        document.getElementById('videoName').disabled = true;
+        document.getElementById('videoSubmit').disabled = true;
+    };
+
+    function enableForm() {
+        document.getElementById('videoFile').disabled = false
+        document.getElemRequestntById('videoName').disabled = false
+        document.getElementById('videoSubmit').disabled = false
+    };
+
+</script>
+
+<div class="text-center font-weight-bold border rounded mt-1 mb-3" style="height: 40px;">
+    <span class="align-middle">Uploading video</span>
+</div>
+
+<div class="row mb-5">
+    <div class="col-7" style="display: flex; flex-direction: column;">
+        @using (Ajax.BeginForm("UploadVideo", "Video", new { area = "" },
+            new AjaxOptions { UpdateTargetId = "results", LoadingElementId = "loading", OnComplete = "disableForm", OnSuccess = "observeProgress(data, status, xhr)" },
+            new { @id = "frmform", @enctype = "multipart/form-data" }))
+        {
+            <div class="custom-file mb-2">
+                <input id="videoFile" onchange="onFileChoice()" name="videoFile" type="file" class="custom-file-input" accept="video/*" required />
+                <label id="videoFileLabel" for="videoFile" class="custom-file-label text-truncate">Choose video...</label>
+            </div>
+            <textarea name="videoName" id="videoName" maxlength="64" required style="max-width:none; resize: none;" rows="5"
+                      placeholder="Video name (64 character max)" class="form-control mb-2"></textarea>
+            <input type="submit" id="videoSubmit" class="btn btn-primary w-100" style="max-width:none;" value="Upload" />
+        }
+    </div>
+
+    <div class="col-5" style="display: flex; flex-direction: column;">
+        <div class="rounded-top bg-secondary upload_thumbnail">
+            <img id="videoThumbnail" style="height: 200px; width: -webkit-fill-available;"/>
+        </div>
+
+        <div class="rounded-bottom bg-light" style="display: flex; flex-direction: column; padding: 5px; height: 50px;">
+            <div class="text-secondary" style="font-size: 12px;">
+                Link to video:
+            </div>
+            <a id="linkToVideoPage" href="" class="cut-text" style="font-size: 14px;"></a>
+        </div>
+    </div>
+</div>
+
+<div class="loading_gif_container">
+    <img id="loading" src="@Url.Content("~/Content/Images/loader.gif")" class="upload_loading_gif" style="display:none;" />
+</div>
+
+<div id="progressBlock" style="visibility: hidden;">
+    <div class="text-center border border-bottom-0 rounded-top" style=" height: 40px;">
+        <div id="videoHandlingText" class="font-weight-bold mt-2" style="font-size: 18px;">
+            Loading
+        </div>
+    </div>
+
+    <div class="progress" style="height: 40px;">
+        <div id="videoProgress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+             style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+    </div>
+</div>
+
+@*<button onclick="prog()">click</button>*@

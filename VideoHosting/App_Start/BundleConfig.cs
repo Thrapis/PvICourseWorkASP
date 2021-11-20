@@ -1,0 +1,35 @@
+﻿using System.Web;
+using System.Web.Optimization;
+
+namespace VideoHosting
+{
+    public class BundleConfig
+    {
+        // Дополнительные сведения об объединении см. на странице https://go.microsoft.com/fwlink/?LinkId=301862
+        public static void RegisterBundles(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery-{version}.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+                        "~/Scripts/jquery.validate*"));
+
+            // Используйте версию Modernizr для разработчиков, чтобы учиться работать. Когда вы будете готовы перейти к работе,
+            // готово к выпуску, используйте средство сборки по адресу https://modernizr.com, чтобы выбрать только необходимые тесты.
+            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
+                        "~/Scripts/modernizr-*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/Scripts/bootstrap.js"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/CustomStyles.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/VideoControl/css").Include("~/Content/VideoControl/baa-video.css"));
+            bundles.Add(new StyleBundle("~/VideoControl/js").Include("~/Scripts/VideoControl/baa-video.js"));
+        }
+    }
+}

@@ -1,0 +1,33 @@
+﻿@model VideoHosting.Models.Page.LoginModel
+
+@using (Ajax.BeginForm("SignIn", "Account", new AjaxOptions { UpdateTargetId = "results", LoadingElementId = "loading" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4 class="text-center">Sign In to Site</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row justify-content-sm-center mw-100" style="margin: 0">
+        <div class="col-lg-6 col-md-offset-3 text-center">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control text-center" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password)
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control text-center" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Sign in" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                New to Site? @Ajax.ActionLink("Create an account.", "CreateAccountWindow", "Account", new AjaxOptions { UpdateTargetId = "results" })
+            </div>
+        </div>
+    </div>
+</div>
+}
