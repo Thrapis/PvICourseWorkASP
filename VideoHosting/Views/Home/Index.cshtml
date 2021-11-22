@@ -5,22 +5,14 @@
     ViewBag.Title = "Home Page";
 }
 
+<div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">Featured Videos</div>
+
 <div class="container">
+    
     <div class="row row-cols-auto justify-content-center">
         @foreach (VideoPreviewInfo preview in Model)
         {
-            <div class="col video-preview-block">
-                <a class="video-preview w-100 h-75" href="@Url.Action("Watch", "Video", new { pageId=preview.VideoPageId })">
-                    <img src="@preview.GetThumbnailForPage()" class="video-preview-thumbnail"/>
-                </a>
-                <a class="video-preview-name cut-text" href="@Url.Action("Watch", "Video", new { pageId=preview.VideoPageId })">
-                    @preview.VideoName
-                </a>
-                <div class="video-preview-author-views">
-                    <div class="col-6 text-left cut-text" style="padding: 0px;">@preview.Author</div>
-                    <div class="col-6 text-right cut-text" style="padding: 0px;">@preview.Views views</div>
-                </div>
-            </div>
+            @VideoHelpers.VideoPreview(preview, Url)
         }
     </div>
 </div>

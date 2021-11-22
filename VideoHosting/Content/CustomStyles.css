@@ -12,7 +12,8 @@
     color: aliceblue;
     text-align: right;
     display: block;
-    margin: 3px;
+    margin-top: 3px;
+    margin-right: 3px;
 }
 
 .login_photo {
@@ -22,7 +23,7 @@
     width: 46px;
     object-fit: cover;
     margin: 3px 6px;
-    border: inset rgb(43 95 238);
+    border: inset rgb(31 77 204);
     border-width: 5px;
 }
 
@@ -57,7 +58,7 @@
 }
 
 .custom-navbar-color {
-    background: rgb(18 48 131);
+    background: #0062CC;
     border-color: rgb(15 41 112);
 }
 
@@ -108,6 +109,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    width: inherit;
 }
 
 .form-control.test {
@@ -257,4 +259,54 @@
     margin-right: 5px;
     font-weight: 500;
     min-height: 50px;
+    overflow-wrap: break-word;
+}
+
+
+
+.myvideo-container {
+    border: 1px dashed gray;
+    max-width: 1002px;
+    margin: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border: 1px solid rgb(43 95 238);
+    border-radius: 5px;
+}
+
+.myvideo-preview-container {
+    align-self: center;
+    text-align: center;
+    background-position: center center;
+}
+
+.myvideo-preview-edit {
+    align-content: center;
+    text-align: center;
+    border: 0px solid black;
+    max-width: 408px;
+    max-height: 178px;
+}
+
+
+.myvideo-text-edit {
+    display: inline-flex;
+    max-width: none;
+    background: transparent;
+    font-size: 18px;
+    font-weight: 500;
+    flex-wrap: nowrap;
+    border: 1px gray dashed;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 2px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.myvideo-tag-edit {
+    overflow-wrap: normal;
+    margin: 0;
+    padding: 0;
 }

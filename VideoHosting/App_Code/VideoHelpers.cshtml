@@ -1,0 +1,63 @@
+﻿
+
+@helper VideoPreview(VideoHosting.Models.Database.Entities.Sinthetic.VideoPreviewInfo preview, System.Web.Mvc.UrlHelper url)
+{
+    <div class="col video-preview-block">
+        <a class="video-preview w-100 h-75" href="@url.Action("Watch", "Video", new { pageId=preview.VideoPageId })">
+            <img src="@preview.GetThumbnailForPage()" class="video-preview-thumbnail" />
+        </a>
+        <a class="video-preview-name cut-text" href="@url.Action("Watch", "Video", new { pageId=preview.VideoPageId })">
+            @preview.VideoName
+        </a>
+        <div class="video-preview-author-views">
+            <div class="col-6 text-left cut-text" style="padding: 0px;">@preview.Author</div>
+            <div class="col-6 text-right cut-text" style="padding: 0px;">@preview.Views views</div>
+        </div>
+    </div>
+}
+
+@helper MyVideoListElement(VideoHosting.Models.Database.Entities.Sinthetic.VideoPreviewInfo preview, System.Web.Mvc.UrlHelper url)
+{
+    <div class="row myvideo-container">
+
+        <div class="col-4 p-0 myvideo-preview-container">
+            <img src="@preview.GetThumbnailForPage()" style="max-width: 408px; max-height: 174px; width: 100%; border-radius: 5px;">
+            <button class="btn btn-primary btn-no-shadow mt-1" style="width: 100%;">
+                <i class="fa fa-pencil"></i>
+            </button>
+        </div>
+
+        <div class="col-8" style="display: flex; flex-direction: column; align-self: center;">
+
+            <a class="cut-text mt-1 mb-1" style="white-space: inherit; font-size: 13px;" href="@url.Action("Watch", "Video", new { pageId=preview.VideoPageId })">
+                @HttpContext.Current.Request.Url.ToString()@url.Action("Watch", "Video", new { pageId = preview.VideoPageId })
+            </a>
+
+            <div type="text" class="myvideo-text-edit row justify-content-between">
+                <div class="col-10 cut-text p-0" style="align-self: center;">
+                    @preview.VideoName
+                </div>
+                <div class="col-2 text-right cut-text p-0">
+                    <button class="btn btn-primary btn-no-shadow p-0" style="width: 100%; height: 30px;">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row border border-dark p-1 m-0 mt-1 mb-1" style="height: min-content; border-radius: 5px;">
+                <div class="col-11 myvideo-tag-edit">
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <button class="btn btn-outline-primary btn-no-shadow m-1" style="height: 40px; font-size: 12px;">
+                            #TagName
+                            <i class="fa fa-close"></i>
+                        </button>
+                    }
+                </div>
+                <button class="col-1 btn btn-primary btn-no-shadow" style="width: 30px; padding: 0;"><i class="fa fa-plus-circle"></i></button>
+
+            </div>
+
+        </div>
+    </div>
+}

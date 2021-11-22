@@ -35,10 +35,10 @@ namespace VideoHosting.Controllers
 				string jsonAccount = User.Identity.Name;
 				Account account = Account.FromJson(jsonAccount);
 
-				VideoPageContext videoPageContext = new VideoPageContext(connection);
-				IEnumerable<VideoPage> videoPages = videoPageContext.GetAllByAccountId(account.Id);
-				
-				return View(videoPages);
+				InfoPackageContext previewContext = new InfoPackageContext(connection);
+				IEnumerable<VideoPreviewInfo> previews = previewContext.GetNFirstVideoPreview(12);
+
+				return View(previews);
 			}
 			return Content("");
 		}

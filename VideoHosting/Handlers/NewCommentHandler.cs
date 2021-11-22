@@ -57,7 +57,7 @@ namespace VideoHosting.Handlers
 
         private async Task<string> Receive()
         {
-            var buffer = new ArraySegment<byte>(new byte[1024]);
+            var buffer = new ArraySegment<byte>(new byte[2048]);
             var result = await socket.ReceiveAsync(buffer, CancellationToken.None);
             return Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
         }

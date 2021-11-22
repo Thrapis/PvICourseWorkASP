@@ -19,11 +19,6 @@
         }
     }
 
-    function prog() {
-        guid = 'FEwwrtICvrrAEGvArBAGCJGEuBtHBJHt';
-        exe_start(guid);
-    }
-
     function observeProgress(data, status, xhr) {
         jsonFile = JSON.parse(data);
         videoUrl = '@pageUrl'.replace("-", jsonFile['PageId']);
@@ -39,19 +34,22 @@
         document.getElementById('videoSubmit').disabled = true;
     };
 
-    function enableForm() {
-        document.getElementById('videoFile').disabled = false
-        document.getElemRequestntById('videoName').disabled = false
-        document.getElementById('videoSubmit').disabled = false
-    };
+
 
 </script>
 
-<div class="text-center font-weight-bold border rounded mt-1 mb-3" style="height: 40px;">
-    <span class="align-middle">Uploading video</span>
-</div>
+<div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">Upload Video</div>
+
+<template id="tagrow">
+    <button class="btn btn-outline-primary btn-no-shadow m-1" style="height: 40px; font-size: 12px;" onclick="">
+        <span id="tagName"></span>
+        <i class="fa fa-close"></i>
+        <input id="tagValue" name="tags" type="hidden" value="" />
+    </button>
+</template>
 
 <div class="row mb-5">
+
     <div class="col-7" style="display: flex; flex-direction: column;">
         @using (Ajax.BeginForm("UploadVideo", "Video", new { area = "" },
             new AjaxOptions { UpdateTargetId = "results", LoadingElementId = "loading", OnComplete = "disableForm", OnSuccess = "observeProgress(data, status, xhr)" },
@@ -63,6 +61,16 @@
             </div>
             <textarea name="videoName" id="videoName" maxlength="64" required style="max-width:none; resize: none;" rows="5"
                       placeholder="Video name (64 character max)" class="form-control mb-2"></textarea>
+
+            <div class="row border p-1 m-0 mt-1 mb-1" style="border-color: gray; height: min-content; border-radius: 5px;">
+                <div id="tagsContainer" class="col-11 myvideo-tag-edit">
+                    
+                </div>
+                <button type="button" class="col-1 btn btn-primary btn-no-shadow" style="width: 30px; padding: 0;">
+                    <i class="fa fa-plus-circle"></i>
+                </button>
+            </div>
+
             <input type="submit" id="videoSubmit" class="btn btn-primary w-100" style="max-width:none;" value="Upload" />
         }
     </div>
@@ -95,6 +103,34 @@
     <div class="progress" style="height: 40px;">
         <div id="videoProgress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
              style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+    </div>
+</div>
+
+<div id="addtag" class="modal fade" role="dialog" style="padding-right: 16px; display: none;" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="carousel slide" data-ride="carousel" tabindex="-1" id="carousel">
+
+                    
+                    
+                    <div class="add-comment-container">
+                        <span id="commentForText" class="mt-1 mb-1">Add tag</span>
+                        <textarea class="add-tag-textarea" id="tagText" rows="2" maxlength="64" required></textarea>
+                    </div>
+
+                </div>
+            </div>
+            <div class="loading_gif_container">
+                <img id="loading" src="@Url.Content("~/Content/Images/loader.gif")" class="loading_gif" style="display:none;" />
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-success btn-no-shadow px-3" value="Add" />
+                <a href="#" role="button" data-dismiss="modal" class="btn btn-danger btn-no-shadow px-3">Close</a>
+            </div>
+
+        </div>
     </div>
 </div>
 

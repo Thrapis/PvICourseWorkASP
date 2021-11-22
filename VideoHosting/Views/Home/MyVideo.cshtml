@@ -1,13 +1,15 @@
-﻿@using VideoHosting.Models.Database.Entities
-@model IEnumerable<VideoPage>
+﻿@using VideoHosting.Models.Database.Entities.Sinthetic
+@model IEnumerable<VideoPreviewInfo>
 
 @{
     ViewBag.Title = "MyVideo";
 }
 
-<h2>MyVideo</h2>
+<div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">My Video</div>
 
-@foreach (var page in Model)
-{
-    @Html.ActionLink(page.VideoName, "Watch", "Video", new { pageId=page.Id }, new { @style="display: block;"});
-}
+<div>
+    @foreach (var page in Model)
+    {
+        @VideoHelpers.MyVideoListElement(page, Url);
+    }
+</div>
