@@ -1,15 +1,196 @@
 ﻿@using VideoHosting.Models.Database.Entities.Sinthetic
-@model IEnumerable<VideoPreviewInfo>
+@model IEnumerable<VideoEditInfo>
 
 @{
     ViewBag.Title = "MyVideo";
 }
 
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/ViewScripts/myvideo.js"></script>
+
 <div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">My Video</div>
 
-<div>
-    @foreach (var page in Model)
+<div id="target" class="col-11 myvideo-tag-edit">
+
+</div>
+
+<div class="mb-4">
+    @foreach (var editInfo in Model)
     {
-        @VideoHelpers.MyVideoListElement(page, Url);
+        @VideoHelpers.MyVideoListElement(editInfo, Url);
     }
+</div>
+
+
+
+<!---------------------------------Add Tag--------------------------------------->
+<div id="addtag" class="modal fade" role="dialog" style="padding-right: 16px; display: none;" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            @using (Ajax.BeginForm("AddTag", "Video", new { are = "" },
+                new AjaxOptions() { UpdateTargetId = "target", OnSuccess = "afterNewTag", LoadingElementId = "addTagLoading" },
+                new { id = "addTagForm" }))
+            {
+                <div class="modal-body">
+                    <div class="carousel slide" data-ride="carousel" tabindex="-1" id="carousel">
+
+                        <input id="addTagPageId" name="pageId" type="hidden" value="" />
+                        <div class="add-comment-container">
+                            <span id="commentForText" class="mt-1 mb-1">Add tag</span>
+                            <textarea class="add-tag-textarea" name="tagName" id="tagText" rows="2" maxlength="22" required></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="loading_gif_container">
+                    <img id="addTagLoading" src="@Url.Content("~/Content/Images/loader.gif")" class="loading_gif" style="display:none;" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success btn-no-shadow px-3" value="Add" />
+                    <a href="#" role="button" data-dismiss="modal" class="btn btn-danger btn-no-shadow px-3">Close</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!----------------------------------Remove Tag-------------------------------------->
+<div id="removetag" class="modal fade" role="dialog" style="padding-right: 16px; display: none;" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            @using (Ajax.BeginForm("RemoveTag", "Video", new { are = "" },
+                new AjaxOptions() { UpdateTargetId = "target", OnSuccess = "afterDeleteTag", LoadingElementId = "removeTagLoading" },
+                new { id = "removeTagForm" }))
+            {
+                <div class="modal-body">
+                    <div class="carousel slide" data-ride="carousel" tabindex="-1" id="carousel">
+
+                        <input id="removeTagPageId" name="pageId" type="hidden" value="" />
+                        <input id="removeTagName" name="tagName" type="hidden" value="" />
+
+                        <div class="add-comment-container">
+                            <span id="commentForText" class="mt-1 mb-1">Remove tag</span>
+                            <span class="">
+                                You shure you want to delete <span id="removeTagNameQuestion">#</span> tag?
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="loading_gif_container">
+                    <img id="removeTagLoading" src="@Url.Content("~/Content/Images/loader.gif")" class="loading_gif" style="display:none;" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success btn-no-shadow px-3" value="Remove" />
+                    <a href="#" role="button" data-dismiss="modal" class="btn btn-danger btn-no-shadow px-3">Close</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-----------------------------------Update Video Name------------------------------------->
+<div id="updatevideoname" class="modal fade" role="dialog" style="padding-right: 16px; display: none;" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            @using (Ajax.BeginForm("UpdateVideoName", "Video", new { are = "" },
+                new AjaxOptions() { UpdateTargetId = "target", OnSuccess = "afterUpdateVideoName", LoadingElementId = "updateVideoNameLoading" },
+                new { id = "updateVideoNameForm" }))
+            {
+                <div class="modal-body">
+                    <div class="carousel slide" data-ride="carousel" tabindex="-1" id="carousel">
+
+                        <input id="updateVideoNamePageId" name="pageId" type="hidden" value="" />
+
+                        <div class="add-comment-container">
+                            <span id="commentForText" class="mt-1 mb-1">Update Video Name</span>
+                            <textarea name="videoName" id="updateVideoNameText" maxlength="64" required
+                                      style="max-width:none; resize: none;" rows="5"
+                                      placeholder="Video name (64 character max)" class="form-control mb-2"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="loading_gif_container">
+                    <img id="updateVideoNameLoading" src="@Url.Content("~/Content/Images/loader.gif")" class="loading_gif" style="display:none;" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success btn-no-shadow px-3" value="Rename" />
+                    <a href="#" role="button" data-dismiss="modal" class="btn btn-danger btn-no-shadow px-3">Close</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-----------------------------------Update Thumbnail------------------------------------->
+<div id="updatethumbnail" class="modal fade" role="dialog" style="padding-right: 16px; display: none;" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            @using (Ajax.BeginForm("UpdateThumbnail", "Video", new { are = "" },
+                new AjaxOptions() { UpdateTargetId = "target", OnSuccess = "afterUpdateThumbnail", LoadingElementId = "updateThumbnailLoading" },
+                new { @id = "updateThumbnailForm", @enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body">
+                    <div class="carousel slide" data-ride="carousel" tabindex="-1" id="carousel">
+
+                        <input id="updateThumbnailPageId" name="pageId" type="hidden" value="" />
+
+                        <div class="add-comment-container">
+                            <span id="commentForText" class="mt-1 mb-1">Update Thumbnail</span>
+
+                            <div class="custom-file mb-2">
+                                <input id="imageFile" onchange="onFileChoice()" name="imageFile" type="file" class="custom-file-input" accept=".png, .jpg, .jpeg" required />
+                                <label id="imageFileLabel" for="imageFile" class="custom-file-label text-truncate">Choose image...</label>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="loading_gif_container">
+                    <img id="updateThumbnailLoading" src="@Url.Content("~/Content/Images/loader.gif")" class="loading_gif" style="display:none;" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success btn-no-shadow px-3" value="Update" />
+                    <a href="#" role="button" data-dismiss="modal" class="btn btn-danger btn-no-shadow px-3">Close</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!---------------------------------Remove video--------------------------------------->
+<div id="removevideo" class="modal fade" role="dialog" style="padding-right: 16px; display: none;" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            @using (Ajax.BeginForm("RemoveVideo", "Video", new { are = "" },
+                new AjaxOptions() { UpdateTargetId = "target", OnSuccess = "afterRemoveVideo", LoadingElementId = "removeVideoLoading" },
+                new { @id = "removeVideoForm" }))
+            {
+                <div class="modal-body">
+                    <div class="carousel slide" data-ride="carousel" tabindex="-1" id="carousel">
+
+                        <input id="removeVideoPageId" name="pageId" type="hidden" value="" />
+
+                        <div class="add-comment-container">
+                            <span id="commentForText" class="mt-1 mb-1">Delete video</span>
+                            <span class="">
+                                You shure you want to delete «<span id="removeVideoQuestion">name</span>» video?
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="loading_gif_container">
+                    <img id="removeVideoLoading" src="@Url.Content("~/Content/Images/loader.gif")" class="loading_gif" style="display:none;" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success btn-no-shadow px-3" value="Delete Video" />
+                    <a href="#" role="button" data-dismiss="modal" class="btn btn-danger btn-no-shadow px-3">Close</a>
+                </div>
+            }
+        </div>
+    </div>
 </div>

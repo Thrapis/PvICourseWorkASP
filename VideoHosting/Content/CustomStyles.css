@@ -310,3 +310,22 @@
     margin: 0;
     padding: 0;
 }
+
+
+.btn-ico-center {
+    width: 30px;
+    min-height: 50px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-tag-textarea {
+    resize: none;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 100%;
+    max-width: none;
+    padding: 2px;
+}

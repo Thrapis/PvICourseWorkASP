@@ -35,10 +35,10 @@ namespace VideoHosting.Controllers
 				string jsonAccount = User.Identity.Name;
 				Account account = Account.FromJson(jsonAccount);
 
-				InfoPackageContext previewContext = new InfoPackageContext(connection);
-				IEnumerable<VideoPreviewInfo> previews = previewContext.GetNFirstVideoPreview(12);
+				InfoPackageContext infoPackageContext = new InfoPackageContext(connection);
+				IEnumerable<VideoEditInfo> editInfos = infoPackageContext.GetVideoEditInfo(account.Id);
 
-				return View(previews);
+				return View(editInfos);
 			}
 			return Content("");
 		}

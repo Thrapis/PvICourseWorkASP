@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -42,13 +43,6 @@ namespace VideoHosting.Controllers
             }
 
 			VideoPageInfo videoPageInfo = infoPackageContext.GetVideoPageInfo(pageId, accountId);
-			IEnumerable<CommentInfo> comments = infoPackageContext.GetCommentsOfVideoPage(pageId);
-			ViewBag.Comments = comments;
-			int lastCommentId = 0;
-			if (comments.Count() > 0)
-				lastCommentId = comments.Max(c => c.CommentId);
-			ViewBag.LastComment = lastCommentId;
-
 			return View(videoPageInfo);
 		}
 
@@ -104,6 +98,117 @@ namespace VideoHosting.Controllers
 			return Content("");
 		}
 
+		[Route("addTagPost")]
+		public ActionResult AddTag(string pageId, string tagName)
+		{
+			if (User.Identity.IsAuthenticated)
+            {
+				var connection = MainOracleConnection.GetConnection();
+				VideoPageContext videoPageContext = new VideoPageContext(connection);
+
+				Account account = Account.FromJson(User.Identity.Name);
+				if (!videoPageContext.InHisPossession(pageId, account.Id))
+					return Content("");
+
+				TagContext tagContext = new TagContext(connection);
+				tagContext.Insert(new Tag(pageId, tagName));
+				IEnumerable<Tag> tags = tagContext.GetTagsByVideoPageId(pageId);
+
+				return PartialView("ListTags", tags);
+			}
+			return Content("");
+		}
+
+		[Route("removeTagPost")]
+		public ActionResult RemoveTag(string pageId, string tagName)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var connection = MainOracleConnection.GetConnection();
+				VideoPageContext videoPageContext = new VideoPageContext(connection);
+
+				Account account = Account.FromJson(User.Identity.Name);
+				if (!videoPageContext.InHisPossession(pageId, account.Id))
+					return Content("");
+
+				TagContext tagContext = new TagContext(connection);
+				tagContext.Remove(new Tag(pageId, tagName));
+				IEnumerable<Tag> tags = tagContext.GetTagsByVideoPageId(pageId);
+
+				return PartialView("ListTags", tags);
+			}
+			return Content("");
+		}
+
+		[Route("updateVideoNamePost")]
+		public ActionResult UpdateVideoName(string pageId, string videoName)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var connection = MainOracleConnection.GetConnection();
+				VideoPageContext videoPageContext = new VideoPageContext(connection);
+
+				Account account = Account.FromJson(User.Identity.Name);
+				if (!videoPageContext.InHisPossession(pageId, account.Id))
+					return Content("");
+
+				videoPageContext.UpdateName(pageId, videoName);
+				VideoPage videoPage = videoPageContext.GetById(pageId);
+
+				return Content(videoPage.VideoName);
+			}
+			return Content("");
+		}
+		
+		[Route("updateThumbnailPost")]
+		public ActionResult UpdateThumbnail(string pageId, HttpPostedFileBase imageFile)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+				var connection = MainOracleConnection.GetConnection();
+				VideoPageContext videoPageContext = new VideoPageContext(connection);
+
+				Account account = Account.FromJson(User.Identity.Name);
+				if (!videoPageContext.InHisPossession(pageId, account.Id))
+					return Content("");
+
+				string directory = Server.MapPath("~/Upload/TempUpload/");
+				if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+
+				string uploadedPath = Server.MapPath("~/Upload/TempUpload/" + pageId + FilePathHelper.GetExtension(imageFile.FileName));
+				imageFile.SaveAs(uploadedPath);
+
+				VideoThumbnail videoThumbnail = new VideoThumbnail(uploadedPath, pageId);
+				VideoThumbnailContext videoThumbnailContext = new VideoThumbnailContext(connection);
+				videoThumbnailContext.Insert(videoThumbnail);
+				videoThumbnail = videoThumbnailContext.GetByVideoPageId(pageId);
+
+				if (System.IO.File.Exists(uploadedPath)) System.IO.File.Delete(uploadedPath);
+
+				return PartialView("VideoThumbnail", videoThumbnail);
+			}
+			return Content("");
+		}
+
+		[Route("removeVideoPost")]
+		public ActionResult RemoveVideo(string pageId)
+		{
+			if (User.Identity.IsAuthenticated)
+			{
+                var connection = MainOracleConnection.GetConnection();
+				VideoPageContext videoPageContext = new VideoPageContext(connection);
+
+				Account account = Account.FromJson(User.Identity.Name);
+				if (!videoPageContext.InHisPossession(pageId, account.Id))
+					return Content("");
+
+                videoPageContext.Remove(pageId);
+
+                return PartialView("DeletedEdit", pageId);
+			}
+			return Content("");
+		}
+
 		[Route("ratePost")]
 		public ContentResult RateVideo(string pageId, RateType rate)
         {
@@ -119,7 +224,7 @@ namespace VideoHosting.Controllers
         }
 
 		[Route("uploadPost")]
-		public ContentResult UploadVideo(HttpPostedFileBase videoFile, string videoName)
+		public ContentResult UploadVideo(HttpPostedFileBase videoFile, string videoName, string[] tags)
 		{
 			if (User.Identity.IsAuthenticated && videoFile != null)
 			{
@@ -140,14 +245,14 @@ namespace VideoHosting.Controllers
 				string jsonAccount = User.Identity.Name;
 				Account account = Account.FromJson(jsonAccount);
 
-				Task.Factory.StartNew(() => HandleVideo(stringGuid, account.Id, videoName, uploadedPath));
+				Task.Factory.StartNew(() => HandleVideo(stringGuid, account.Id, videoName, tags, uploadedPath));
 
 				return Content(statusContainer.GetStatus(stringGuid).ToJson());
 			}
 			return Content("");
 		}
 
-		void HandleVideo(string stringGuid, int accountId, string videoName, string uploadedPath)
+		void HandleVideo(string stringGuid, int accountId, string videoName, string[] tags, string uploadedPath)
         {
 			VideoStatusContainer statusContainer = VideoStatusContainer.GetInstance();
 			var connection = MainOracleConnection.GetConnection();
@@ -156,10 +261,16 @@ namespace VideoHosting.Controllers
 			VideoPage videoPage = new VideoPage(stringGuid, accountId, videoName, DateTime.Now);
 			videoPageContext.Insert(videoPage);
 
-			string resolution_480 = "-vf scale=854:480";
-			string resolution_720 = "-vf scale=1280:720";
-			string resolution_1080 = "-vf scale=1920:1080";
-			string additional_settings = " -vcodec libx264 -crf 30 -preset fast";
+			if (tags != null && tags.Length > 0)
+            {
+				TagContext tagContext = new TagContext(connection);
+				tagContext.Insert(stringGuid, tags);
+			}
+
+			string resolution_480 = @"-vf ""select='eq(n,0)+if(gt(t-prev_selected_t,1/30.50),1,0)'"",scale=854:480";
+			string resolution_720 = @"-vf ""select='eq(n,0)+if(gt(t-prev_selected_t,1/30.50),1,0)'"",scale=1280:720";
+			string resolution_1080 = @"-vf ""select='eq(n,0)+if(gt(t-prev_selected_t,1/60.50),1,0)'"",scale=1920:1080";
+			string additional_settings = " -vcodec libx264 -crf 28 -preset fast";
 
 			string thumbnailPath = Server.MapPath("~/Upload/TempUpload/" + stringGuid + "_th.jpeg");
 			string convertedPath_480 = Server.MapPath("~/Upload/TempUpload/" + stringGuid + "_480.mp4");
@@ -170,7 +281,23 @@ namespace VideoHosting.Controllers
 			ConvertSettings settings = new ConvertSettings();
 
 			VideoThumbnailContext videoThumbnailContext = new VideoThumbnailContext(connection);
-			ffMpeg.GetVideoThumbnail(uploadedPath, thumbnailPath);
+
+
+			int NumberOfRetries = 5;
+			int DelayOnRetry = 1000;
+
+			for (int i = 1; i <= NumberOfRetries; ++i) {
+				try 
+				{
+					ffMpeg.GetVideoThumbnail(uploadedPath, thumbnailPath);
+					break;
+				}
+				catch (IOException e) when (i <= NumberOfRetries)
+				{
+					Thread.Sleep(DelayOnRetry);
+				}
+			}
+
 			VideoThumbnail videoThumbnail = new VideoThumbnail(thumbnailPath, stringGuid);
 			videoThumbnailContext.Insert(videoThumbnail);
 			if (System.IO.File.Exists(thumbnailPath)) System.IO.File.Delete(thumbnailPath);

@@ -4,81 +4,17 @@
 
 @{
     ViewBag.Title = "Watch";
-    IEnumerable<CommentInfo> comments = ViewBag.Comments;
-    int lastCommentId = ViewBag.LastComment;
+    IEnumerable<Tag> tags = Model.Tags;
+    IEnumerable<CommentInfo> comments = Model.Comments;
+    int lastCommentId = 0;
+    if (comments.Count() > 0)
+    {
+        lastCommentId = comments.Max(c => c.CommentId);
+    }
+
 }
 
-<script type="text/javascript">
-    function likeActive() {
-        let icon = document.getElementById('like-icon');
-        if (icon.classList.contains('fa-thumbs-o-up')) {
-            return false;
-        }
-        else if (icon.classList.contains('fa-thumbs-up')) {
-            return true;
-        }
-    }
-
-    function dislikeActive() {
-        let icon = document.getElementById('dislike-icon');
-        if (icon.classList.contains('fa-thumbs-o-down')) {
-            return false;
-        }
-        else if (icon.classList.contains('fa-thumbs-down')) {
-            return true;
-        }
-    }
-
-    function toggleLike() {
-        let icon = document.getElementById('like-icon');
-        let counter = document.getElementById('like-counter');
-        let count = parseInt(counter.innerText);
-        if (!likeActive()) {
-            icon.classList.remove('fa-thumbs-o-up');
-            icon.classList.add('fa-thumbs-up');
-            counter.innerText = count + 1;
-        }
-        else if (likeActive()) {
-            icon.classList.remove('fa-thumbs-up');
-            icon.classList.add('fa-thumbs-o-up');
-            counter.innerText = count - 1;
-        }
-    }
-
-    function toggleDislike() {
-        let icon = document.getElementById('dislike-icon');
-        let counter = document.getElementById('dislike-counter');
-        let count = parseInt(counter.innerText);
-        if (!dislikeActive()) {
-            icon.classList.remove('fa-thumbs-o-down');
-            icon.classList.add('fa-thumbs-down');
-            counter.innerText = count + 1;
-        }
-        else if (dislikeActive()) {
-            icon.classList.remove('fa-thumbs-down');
-            icon.classList.add('fa-thumbs-o-down');
-            counter.innerText = count - 1;
-        }
-    }
-
-    function rateResult(data, status, xhr) {
-        if (data == 'like') {
-            toggleLike();
-            if (dislikeActive())
-                toggleDislike();
-        }
-        else if (data == 'dislike') {
-            toggleDislike();
-            if (likeActive())
-                toggleLike();
-        }
-    }
-
-    function afterComment() {
-        document.getElementById('commentText').value = "";
-        $('#addcomment').modal('hide')
-    }
-</script>
+<script src="~/Scripts/ViewScripts/watch-video.js"></script>
 
 <div class="row justify-content-center d-block mt-2 mb-2">
     <div>
@@ -86,8 +22,15 @@
     </div>
 </div>
 
-<div class="under-video-block cut-text mt-2 mb-2">
+<div class="under-video-block cut-text m-0 mt-2 mb-2">
     <span class="under-video-text">@Model.VideoName</span>
+    <span class="under-video-text" style="font-size: 14px;">
+        @foreach (var tag in tags)
+        {
+            <a href="#">#@tag.Name</a>
+            <span>&nbsp;</span>
+        }
+    </span>
 </div>
 
 <div class="under-video-block mt-2 mb-2">
@@ -218,10 +161,10 @@
                     <div class="carousel slide" data-ride="carousel" tabindex="-1" id="carousel">
 
                         <input type="hidden" name="pageId" value="@Model.VideoPageId" />
-                        @*<input type="hidden" id="commentForId" name="commentForId" value="null"/>*@
                         <div class="add-comment-container">
                             <span id="commentForText" class="mt-1 mb-1">Add comment</span>
-                            <textarea class="add-comment-textarea" id="commentText" name="commentText" rows="6" maxlength="256" required></textarea>
+                            <textarea class="add-comment-textarea" id="commentText"
+                                      name="commentText" rows="6" maxlength="256" required></textarea>
                         </div>
 
                     </div>
@@ -245,5 +188,26 @@
         else BlockVideoHots = true;
     });
     observer.observe(document.getElementById('addcomment'), { attributes: true });
+
+    function limitWord(fieldId, length) {
+        if (length == undefined) length = 5;
+        document.getElementById(fieldId).onkeydown = function () {
+            var change = 0;
+            var output = '';
+            var input = this.value;
+            output = input.split(/([\s^-]+)/g).map(function (e, i) {
+                if (i % 2 == 0) {
+                    if (e.length > length) {
+                        change = 1;
+                    }
+                    return e.substr(0, length);
+                } else return e;
+            }).join('')
+            if (change == 1) {
+                document.getElementById(fieldId).value = output;
+            }
+        }
+    }
+    limitWord('commentText', 32);
 </script>
 

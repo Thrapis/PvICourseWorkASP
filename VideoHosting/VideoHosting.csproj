@@ -187,6 +187,7 @@
     <Compile Include="Models\Database\Contexts\AccountContext.cs" />
     <Compile Include="Models\Database\Contexts\VideoPageContext.cs" />
     <Compile Include="Models\Database\Contexts\InfoPackageContext.cs" />
+    <Compile Include="Models\Database\Contexts\TagContext.cs" />
     <Compile Include="Models\Database\Contexts\VideoThumbnailContext.cs" />
     <Compile Include="Models\Database\Contexts\VideoSourceContext.cs" />
     <Compile Include="Models\Database\Entities\Account.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Models\Database\Entities\Comment.cs" />
     <Compile Include="Models\Database\Entities\NonAuthVideoView.cs" />
     <Compile Include="Models\Database\Entities\Sinthetic\CommentInfo.cs" />
+    <Compile Include="Models\Database\Entities\Sinthetic\VideoEditInfo.cs" />
     <Compile Include="Models\Database\Entities\Sinthetic\VideoPageInfo.cs" />
     <Compile Include="Models\Database\Entities\Tag.cs" />
     <Compile Include="Models\Database\Entities\VideoPage.cs" />
@@ -348,6 +350,9 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\VideoControl\baa-video.js" />
+    <Content Include="Scripts\ViewScripts\watch-video.js" />
+    <Content Include="Scripts\ViewScripts\myvideo.js" />
+    <Content Include="Scripts\ViewScripts\video-load.js" />
     <Content Include="Scripts\WebSocket\modernizr-custom.js" />
     <Content Include="Scripts\WebSocket\new-comments.js" />
     <Content Include="Scripts\WebSocket\video-handling-status.js" />
@@ -381,10 +386,12 @@
     <Content Include="Views\Account\SignedInWindow.cshtml" />
     <Content Include="Views\Home\VideoLoad.cshtml" />
     <Content Include="Views\Home\MyVideo.cshtml" />
+    <Content Include="Views\Video\ListTags.cshtml" />
+    <Content Include="Views\Video\VideoThumbnail.cshtml" />
+    <Content Include="Views\Video\DeletedEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Database\Entities\Composite\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

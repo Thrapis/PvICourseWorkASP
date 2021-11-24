@@ -12,5 +12,10 @@ namespace VideoHosting.Models.Database.Entities
         public string Name { get; set; }
 
         public Tag() { }
+        public Tag(string pageId, string name)
+        {
+            VideoPageId = pageId;
+            Name = name;
+        }
     }
 }

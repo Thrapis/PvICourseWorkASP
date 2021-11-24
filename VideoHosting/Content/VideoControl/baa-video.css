@@ -32,7 +32,7 @@ body {
 
 .video-container {
   width: -webkit-fill-available;
-  min-width: 430px;
+  /*min-width: 430px;*/
   max-width: 800px;
   border-radius: 4px;
   margin: 0 auto;
@@ -199,7 +199,7 @@ button * {
   pointer-events: none;
 }
 
-button::before {
+/*button::before {
   content: attr(data-title);
   position: absolute;
   display: none;
@@ -211,7 +211,7 @@ button::before {
   padding: 4px 6px;
   word-break: keep-all;
   white-space: pre;
-}
+}*/
 
 button:hover::before {
   display: inline-block;

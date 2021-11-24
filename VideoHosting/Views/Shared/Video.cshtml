@@ -16,7 +16,7 @@
 
     <video controls class="video" id="video" preload="auto" autoplay
            poster="@Url.Action("GetThumbnail", "Video", new { pageId=Model.VideoPageId })">
-        <source id="source-point" src="@Url.Action("GetVideoSource", "Video", new { pageId=Model.VideoPageId, quality=1080 })" type="video/mp4"/>
+        <source id="source-point" src="@Url.Action("GetVideoSource", "Video", new { pageId=Model.VideoPageId, quality=Model.MaxQuality })" type="video/mp4"/>
     </video>
 
     <div class="video-controls hidden" id="video-controls">
@@ -59,7 +59,7 @@
             <div class="right-controls">
 
                 <div class="dropdown">
-                    <button class="dropbtn" id="quality-button">1080</button>
+                    <button class="dropbtn" id="quality-button">@Model.MaxQuality</button>
                     <div id="qualityMenu" class="dropdown-content">
                         @if (Model.MaxQuality >= 1080)
                         {

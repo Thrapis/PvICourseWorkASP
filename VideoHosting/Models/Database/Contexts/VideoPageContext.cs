@@ -27,7 +27,7 @@ namespace VideoHosting.Models.Database.Contexts
             parameters.Add("@par_id", id, OracleMappingType.NVarchar2, ParameterDirection.Input);
             parameters.Add("@page_cur", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
 
-            string sql = $@"VideoPagePackage.CreateVideoPage";
+            string sql = $@"VideoPagePackage.GetById";
             return _connection.QueryFirstOrDefault<VideoPage>(sql, parameters, commandType: CommandType.StoredProcedure);
         }
 
@@ -51,6 +51,39 @@ namespace VideoHosting.Models.Database.Contexts
             string sql = $@"VideoPagePackage.CreateVideoPage";
             _connection.Query(sql, parameters, commandType: CommandType.StoredProcedure);
             return parameters.Get<int>("@created");
+        }
+
+        public int Remove(string pageId)
+        {
+            OracleDynamicParameters parameters = new OracleDynamicParameters();
+            parameters.Add("@par_id", pageId, OracleMappingType.NVarchar2, ParameterDirection.Input);
+            parameters.Add("@removed", 0, OracleMappingType.Int32, ParameterDirection.Output);
+
+            string sql = $@"VideoPagePackage.RemoveVideoPage";
+            _connection.Query(sql, parameters, commandType: CommandType.StoredProcedure);
+            return parameters.Get<int>("@removed");
+        }
+
+        public bool InHisPossession(string pageId, int accountId)
+        {
+            OracleDynamicParameters parameters = new OracleDynamicParameters();
+            parameters.Add("@par_id", pageId, OracleMappingType.NVarchar2, ParameterDirection.Input);
+            parameters.Add("@par_account_id", accountId, OracleMappingType.Int32, ParameterDirection.Input);
+            parameters.Add("@possess", 0, OracleMappingType.Int32, ParameterDirection.Output);
+
+            string sql = $@"VideoPagePackage.InHisPossession";
+            _connection.Query(sql, parameters, commandType: CommandType.StoredProcedure);
+            return parameters.Get<bool>("@possess");
+        }
+
+        public void UpdateName(string pageId, string newVideoName)
+        {
+            OracleDynamicParameters parameters = new OracleDynamicParameters();
+            parameters.Add("@par_id", pageId, OracleMappingType.NVarchar2, ParameterDirection.Input);
+            parameters.Add("@par_new_name", newVideoName, OracleMappingType.NVarchar2, ParameterDirection.Input);
+
+            string sql = $@"VideoPagePackage.UpdateName";
+            _connection.Query(sql, parameters, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<VideoPage> GetNFirst(int n)

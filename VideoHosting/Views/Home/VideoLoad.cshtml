@@ -5,20 +5,9 @@
 }
 
 <script src="~/Scripts/WebSocket/video-handling-status.js"></script>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/ViewScripts/video-load.js"></script>
 <script type="text/javascript">
-
-    function onFileChoice() {
-        var fullPath = document.getElementById('videoFile').value;
-        if (fullPath) {
-            var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-            var filename = fullPath.substring(startIndex);
-            if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-                filename = filename.substring(1);
-            }
-            document.getElementById('videoFileLabel').innerHTML = filename;
-        }
-    }
-
     function observeProgress(data, status, xhr) {
         jsonFile = JSON.parse(data);
         videoUrl = '@pageUrl'.replace("-", jsonFile['PageId']);
@@ -27,22 +16,13 @@
         linkToVideoPage.innerHTML = location.host + videoUrl;
         exe_start(jsonFile['PageId']);
     }
-
-    function disableForm() {
-        document.getElementById('videoFile').disabled = true;
-        document.getElementById('videoName').disabled = true;
-        document.getElementById('videoSubmit').disabled = true;
-    };
-
-
-
 </script>
 
 <div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">Upload Video</div>
 
 <template id="tagrow">
-    <button class="btn btn-outline-primary btn-no-shadow m-1" style="height: 40px; font-size: 12px;" onclick="">
-        <span id="tagName"></span>
+    <button type="button" id="tagButton" class="btn btn-outline-primary btn-no-shadow m-1" style="height: 40px; font-size: 12px;" onclick="">
+        <span id="tagName" class="cut-text"></span>
         <i class="fa fa-close"></i>
         <input id="tagValue" name="tags" type="hidden" value="" />
     </button>
@@ -62,13 +42,13 @@
             <textarea name="videoName" id="videoName" maxlength="64" required style="max-width:none; resize: none;" rows="5"
                       placeholder="Video name (64 character max)" class="form-control mb-2"></textarea>
 
-            <div class="row border p-1 m-0 mt-1 mb-1" style="border-color: gray; height: min-content; border-radius: 5px;">
+            <div id="tagsControllerBox" class="row border p-1 m-0 mt-1 mb-1" style="border-color: gray; height: min-content; border-radius: 5px;">
                 <div id="tagsContainer" class="col-11 myvideo-tag-edit">
                     
                 </div>
-                <button type="button" class="col-1 btn btn-primary btn-no-shadow" style="width: 30px; padding: 0;">
+                <a href="#addtag" class="col-1 btn btn-primary btn-no-shadow btn-ico-center" role="button" data-toggle="modal" data-slide="0">
                     <i class="fa fa-plus-circle"></i>
-                </button>
+                </a>
             </div>
 
             <input type="submit" id="videoSubmit" class="btn btn-primary w-100" style="max-width:none;" value="Upload" />
@@ -106,6 +86,7 @@
     </div>
 </div>
 
+
 <div id="addtag" class="modal fade" role="dialog" style="padding-right: 16px; display: none;" aria-modal="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -117,7 +98,7 @@
                     
                     <div class="add-comment-container">
                         <span id="commentForText" class="mt-1 mb-1">Add tag</span>
-                        <textarea class="add-tag-textarea" id="tagText" rows="2" maxlength="64" required></textarea>
+                        <textarea class="add-tag-textarea" name="tagText" id="tagText" rows="2" maxlength="22" required></textarea>
                     </div>
 
                 </div>
@@ -126,12 +107,10 @@
                 <img id="loading" src="@Url.Content("~/Content/Images/loader.gif")" class="loading_gif" style="display:none;" />
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-success btn-no-shadow px-3" value="Add" />
+                <input type="button" onclick="newTag()" class="btn btn-success btn-no-shadow px-3" value="Add" />
                 <a href="#" role="button" data-dismiss="modal" class="btn btn-danger btn-no-shadow px-3">Close</a>
             </div>
 
         </div>
     </div>
 </div>
-
-@*<button onclick="prog()">click</button>*@

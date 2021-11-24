@@ -38,7 +38,14 @@ namespace VideoHosting.Models.Database.Contexts
             parameters.Add("@page_info_cur", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
 
             string sql = $@"InfoPackage.GetVideoPageInfo";
-            return _connection.QueryFirstOrDefault<VideoPageInfo>(sql, parameters, commandType: CommandType.StoredProcedure);
+            VideoPageInfo videoPageInfo = _connection
+                .QueryFirstOrDefault<VideoPageInfo>(sql, parameters, commandType: CommandType.StoredProcedure);
+            
+            videoPageInfo.Comments = GetCommentsOfVideoPage(videoPageInfo.VideoPageId);
+            TagContext tagsContext = new TagContext(_connection);
+            videoPageInfo.Tags = tagsContext.GetTagsByVideoPageId(videoPageInfo.VideoPageId);
+
+            return videoPageInfo;
         }
 
         public IEnumerable<CommentInfo> GetCommentsOfVideoPage(string pageId)
@@ -60,6 +67,25 @@ namespace VideoHosting.Models.Database.Contexts
 
             string sql = $@"InfoPackage.GetCommentsOfVideoPageAfter";
             return _connection.Query<CommentInfo>(sql, parameters, commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<VideoEditInfo> GetVideoEditInfo(int accountId)
+        {
+            OracleDynamicParameters parameters = new OracleDynamicParameters();
+            parameters.Add("@par_account_id", accountId, OracleMappingType.Int32, ParameterDirection.Input);
+            parameters.Add("@page_info_cur", null, OracleMappingType.RefCursor, ParameterDirection.Output);
+
+            string sql = $@"InfoPackage.GetVideoEditInfo";
+            IEnumerable<VideoEditInfo> videoEdits = _connection
+                .Query<VideoEditInfo>(sql, parameters, commandType: CommandType.StoredProcedure);
+
+            TagContext tagContext = new TagContext(_connection);
+            foreach (var videoEdit in videoEdits)
+            {
+                videoEdit.Tags = tagContext.GetTagsByVideoPageId(videoEdit.VideoPageId);
+            }
+
+            return videoEdits;
         }
 
         public void Dispose()

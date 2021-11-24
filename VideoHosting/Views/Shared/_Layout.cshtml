@@ -10,7 +10,7 @@
 	
 </head>
 
-<body class="flex-wrapper" style="padding: 0px;">
+<body class="flex-wrapper" style="padding: 0px;" >
 
 	<div class="navbar navbar-inverse navbar-fixed-top custom-navbar-color">
 		<div class="container w-100 p-0">
@@ -23,7 +23,8 @@
 				<div class="col-6 navbar-header justify-content-center">
 					<div class="input-group rounded justify-content-center">
 						<input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-							   aria-describedby="search-addon" style="max-width: none;"/>
+							   aria-describedby="search-addon" style="max-width: none;"
+							   onfocus="BlockVideoHots = true;" onblur="BlockVideoHots = false;"/>
 						<button class="input-group-text border-0 btn ml-1" id="search-addon">
 							<i class="fa fa-search"></i>
 						</button>
