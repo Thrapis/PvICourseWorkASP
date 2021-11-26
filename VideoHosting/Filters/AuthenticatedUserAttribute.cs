@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using VideoHosting.Models.Database.Connections;
 using VideoHosting.Models.Database.Contexts;
 using VideoHosting.Models.Database.Entities;
+using VideoHosting.Models.Database.Entities.Sinthetic;
 
 namespace VideoHosting.Filters
 {
@@ -15,13 +16,13 @@ namespace VideoHosting.Filters
         {
             
         }
-
+        
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 string jsonAccount = filterContext.HttpContext.User.Identity.Name;
-                Account account = Account.FromJson(jsonAccount); 
+                Account account = Account.FromJson(jsonAccount);
 
                 filterContext.Controller.ViewBag.Login = account.Login;
             }

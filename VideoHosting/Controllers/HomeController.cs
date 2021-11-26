@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,11 +20,14 @@ namespace VideoHosting.Controllers
 		{
 			var connection = MainOracleConnection.GetConnection();
 			InfoPackageContext previewContext = new InfoPackageContext(connection);
-
+			
 			IEnumerable<VideoPreviewInfo> previews = previewContext.GetNFirstVideoPreview(12);
 
+			if (User.Identity.IsAuthenticated)
+				SetLastViews(this, Account.FromJson(User.Identity.Name), connection);
 			return View(previews);
 		}
+
 
 		[AuthenticatedUser]
 		public ActionResult MyVideo()
@@ -38,15 +42,48 @@ namespace VideoHosting.Controllers
 				InfoPackageContext infoPackageContext = new InfoPackageContext(connection);
 				IEnumerable<VideoEditInfo> editInfos = infoPackageContext.GetVideoEditInfo(account.Id);
 
+				SetLastViews(this, account, connection);
 				return View(editInfos);
 			}
 			return Content("");
 		}
 
+
 		[AuthenticatedUser]
-		public ActionResult VideoLoad()
+		public ActionResult VideoUpload()
 		{
-			return View();
+			if (User.Identity.IsAuthenticated)
+            {
+				SetLastViews(this, Account.FromJson(User.Identity.Name), MainOracleConnection.GetConnection());
+				return View();
+			}
+			else
+				return Content("");
+		}
+
+
+		[AuthenticatedUser]
+		public ActionResult StatisticsAndAnalyse()
+		{
+			if (User.Identity.IsAuthenticated)
+            {
+				Account account = Account.FromJson(User.Identity.Name);
+				var connection = MainOracleConnection.GetConnection();
+				InfoPackageContext infoPackageContext = new InfoPackageContext(connection);
+				IEnumerable<ShortVideoInfo> selects = infoPackageContext.GetShortVideoList(account.Id);
+
+				SetLastViews(this, account, connection);
+				return View(selects);
+			}
+
+			return Content("");
+		}
+
+		private void SetLastViews(Controller controller, Account account, OracleConnection connection)
+        {
+			InfoPackageContext infoPackageContext = new InfoPackageContext(connection);
+			IEnumerable<ShortVideoInfo> lastViews = infoPackageContext.GetLastViews(account.Id);
+			controller.ViewBag.LastViews = lastViews;
 		}
 	}
 }

@@ -1,0 +1,93 @@
+﻿@using VideoHosting.Models.Database.Entities.Statistic
+@using VideoHosting.Models.Utils 
+@model IEnumerable<RateData>
+
+<script src="~/Scripts/Chart.min.js"></script>
+<script src="~/Scripts/Chart.js"></script>
+
+<div class="m-1 text-center">
+    Rate Statistics (<span style="font-weight: 600;">@ViewBag.VideoName</span>)
+</div>
+
+<canvas id="myChart" width="400" height="200"></canvas>
+
+@{
+    int[] arr1 = Model.Select(rd => rd.PositiveCount).ToArray();
+    int[] arr2 = Model.Select(rd => rd.NegativeCount).ToArray();
+    string[] periods = Model.Select(rd => rd.Label).ToArray();
+
+    var labels = Html.StringArrayToJSString(periods);
+    var data1 = Html.IntArrayToJSString(arr1);
+    var data2 = Html.IntArrayToJSString(arr2);
+}
+
+<script>
+    data = {
+        labels: @labels,
+        datasets: [
+            {
+                label: 'Likes',
+                data: @data1,
+                borderColor: 'Green',
+                backgroundColor: 'Transparent',
+            },
+            {
+                label: 'Dislikes',
+                data: @data2,
+                borderColor: 'Red',
+                backgroundColor: 'Transparent',
+            }
+        ]
+    };
+
+    config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Chart.js Line Chart'
+                }
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+        }
+    };
+
+    ctx = document.getElementById('myChart').getContext('2d');
+    myChart = new Chart(ctx, config);
+
+</script>
+
+
+
+@*
+@{
+    string[] arr = new string[]{ "1", "2", "3", "5", "7"};
+
+    string pathdir = Server.MapPath("_ChartFiles");
+    Directory.CreateDirectory(pathdir);
+
+    var filePathName = Server.MapPath("_ChartFiles/chart01.jpg");
+    if (!File.Exists(filePathName))
+    {
+        var chartImage = new Chart(600, 400);
+        chartImage.AddTitle("Chart Title");
+        chartImage.AddSeries(
+                name: "Employee",
+                axisLabel: "Name",
+                xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
+                yValues: arr);
+        chartImage.Save(path: filePathName);
+    }
+}*@

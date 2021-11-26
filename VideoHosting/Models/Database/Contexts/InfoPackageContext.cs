@@ -88,6 +88,26 @@ namespace VideoHosting.Models.Database.Contexts
             return videoEdits;
         }
 
+        public IEnumerable<ShortVideoInfo> GetLastViews(int accountId)
+        {
+            OracleDynamicParameters parameters = new OracleDynamicParameters();
+            parameters.Add("@par_account_id", accountId, OracleMappingType.Int32, ParameterDirection.Input);
+            parameters.Add("@views_cur", null, OracleMappingType.RefCursor, ParameterDirection.Output);
+
+            string sql = $@"InfoPackage.GetLastViews";
+            return _connection.Query<ShortVideoInfo>(sql, parameters, commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<ShortVideoInfo> GetShortVideoList(int accountId)
+        {
+            OracleDynamicParameters parameters = new OracleDynamicParameters();
+            parameters.Add("@par_account_id", accountId, OracleMappingType.Int32, ParameterDirection.Input);
+            parameters.Add("@videos_cur", null, OracleMappingType.RefCursor, ParameterDirection.Output);
+
+            string sql = $@"InfoPackage.GetShortVideoList";
+            return _connection.Query<ShortVideoInfo>(sql, parameters, commandType: CommandType.StoredProcedure);
+        }
+
         public void Dispose()
         {
             _connection.Dispose();

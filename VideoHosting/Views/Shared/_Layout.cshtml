@@ -4,11 +4,16 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@ViewBag.Title - приложение ASP.NET</title>
+	<title>Site. @ViewBag.Title</title>
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
 	
 </head>
+
+@using VideoHosting.Models.Database.Entities.Sinthetic
+@{
+    IEnumerable<ShortVideoInfo> views = ViewBag.LastViews;
+}
 
 <body class="flex-wrapper" style="padding: 0px;" >
 
@@ -75,29 +80,45 @@
 					{
 						<div class="list-group list-group-flush">
 							<span class="text-center mb-2" style="font-size: 20px; font-weight: 400;">My Actions</span>
-							@Html.ActionLink("My video", "MyVideo", "Home", new { area = "" },
-								new
-									 {
-										 @class = "btn btn-primary btn-no-shadow mb-1"
-									 })
-							@Html.ActionLink("Upload video", "VideoLoad", "Home", new { area = "" },
-								new
-									 {
-										 @class = "btn btn-primary btn-no-shadow mb-1"
-									 })
+								@Html.ActionLink("My video", "MyVideo", "Home", new { area = "" },
+									new
+										 {
+											 @class = "btn btn-primary btn-no-shadow mb-1"
+										 })
+								@Html.ActionLink("Upload video", "VideoUpload", "Home", new { area = "" },
+									new
+										 {
+											 @class = "btn btn-primary btn-no-shadow mb-1"
+										 })
+								@Html.ActionLink("Video statistics", "StatisticsAndAnalyse", "Home", new { area = "" },
+									new
+										 {
+											 @class = "btn btn-primary btn-no-shadow mb-1"
+										 })
 						</div>
 					}
 				</div>
 
-                <div id="columnRight" class="col-md-2 order-last pb-2 pt-2">
+                <div id="columnRight" class="col-md-2 order-last pb-2">
                     @if (User.Identity.IsAuthenticated)
                     {
 						<div class="list-group list-group-flush">
 							<span class="text-center mb-2" style="font-size: 20px; font-weight: 400;">Last Views</span>
 
-							<div class="text-center" style="border: 1px dashed gray; border-radius: 5px;">
-								No one was viewed
-							</div>
+							@if (views.Count() > 0)
+							{
+								foreach (var view in views)
+								{
+									@VideoHelpers.VideoView(view, Url)
+								}
+							}
+							else
+							{
+								
+								<div class="text-center" style="border: 1px dashed gray; border-radius: 5px;">
+									No one was viewed
+								</div>
+							}
 						</div>
                     }
                 </div>

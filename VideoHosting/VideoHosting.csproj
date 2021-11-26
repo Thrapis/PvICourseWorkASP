@@ -176,6 +176,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\VideoController.cs" />
     <Compile Include="Filters\AuthenticatedUserAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -185,6 +186,7 @@
     <Compile Include="Handlers\VideoProgressHandler.cs" />
     <Compile Include="Models\Database\Connections\MainOracleConnection.cs" />
     <Compile Include="Models\Database\Contexts\AccountContext.cs" />
+    <Compile Include="Models\Database\Contexts\VideoAnalyseContext.cs" />
     <Compile Include="Models\Database\Contexts\VideoPageContext.cs" />
     <Compile Include="Models\Database\Contexts\InfoPackageContext.cs" />
     <Compile Include="Models\Database\Contexts\TagContext.cs" />
@@ -195,8 +197,10 @@
     <Compile Include="Models\Database\Entities\Comment.cs" />
     <Compile Include="Models\Database\Entities\NonAuthVideoView.cs" />
     <Compile Include="Models\Database\Entities\Sinthetic\CommentInfo.cs" />
+    <Compile Include="Models\Database\Entities\Sinthetic\ShortVideoInfo.cs" />
     <Compile Include="Models\Database\Entities\Sinthetic\VideoEditInfo.cs" />
     <Compile Include="Models\Database\Entities\Sinthetic\VideoPageInfo.cs" />
+    <Compile Include="Models\Database\Entities\Statistic\RateData.cs" />
     <Compile Include="Models\Database\Entities\Tag.cs" />
     <Compile Include="Models\Database\Entities\VideoPage.cs" />
     <Compile Include="Models\Database\Entities\Sinthetic\VideoPreviewInfo.cs" />
@@ -206,6 +210,7 @@
     <Compile Include="Models\Page\RegisterModel.cs" />
     <Compile Include="Models\Status\VideoStatus.cs" />
     <Compile Include="Models\Status\VideoStatusContainer.cs" />
+    <Compile Include="Models\Utils\CSharpToJSConverter.cs" />
     <Compile Include="Models\Utils\FilePathHelper.cs" />
     <Compile Include="Models\Utils\GuidHelper.cs" />
     <Compile Include="Models\Utils\OracleHelper.cs" />
@@ -218,6 +223,8 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Chart.css" />
+    <Content Include="Content\Chart.min.css" />
     <Content Include="Content\CustomStyles.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -233,6 +240,8 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -384,11 +393,14 @@
     <Content Include="Views\Account\CreateAccountWindow.cshtml" />
     <Content Include="Views\Account\AccountCreatedWindow.cshtml" />
     <Content Include="Views\Account\SignedInWindow.cshtml" />
-    <Content Include="Views\Home\VideoLoad.cshtml" />
+    <Content Include="Views\Home\VideoUpload.cshtml" />
     <Content Include="Views\Home\MyVideo.cshtml" />
     <Content Include="Views\Video\ListTags.cshtml" />
     <Content Include="Views\Video\VideoThumbnail.cshtml" />
     <Content Include="Views\Video\DeletedEdit.cshtml" />
+    <Content Include="Views\Home\StatisticsAndAnalyse.cshtml" />
+    <Content Include="Views\Statistics\RateStatistics.cshtml" />
+    <Content Include="Views\Statistics\MainStatistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

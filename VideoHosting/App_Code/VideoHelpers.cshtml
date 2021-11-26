@@ -1,4 +1,4 @@
-﻿
+﻿@using System.Web.Mvc.Ajax
 
 @helper VideoPreview(VideoHosting.Models.Database.Entities.Sinthetic.VideoPreviewInfo preview, System.Web.Mvc.UrlHelper url)
 {
@@ -24,7 +24,7 @@
             <div id="@editInfo.VideoPageId-thumbnail">
                 <img src="@editInfo.GetThumbnailForPage()" style="max-width: 408px; max-height: 174px; width: 100%; border-radius: 5px;">
             </div>
-            <a href="#updatethumbnail"  onclick="onUpdateThumbnail('@editInfo.VideoPageId')"
+            <a href="#updatethumbnail" onclick="onUpdateThumbnail('@editInfo.VideoPageId')"
                class="btn btn-primary btn-no-shadow mt-1" style="width: 100%;"
                role="button" data-toggle="modal" data-slide="0">
                 <i class="fa fa-pencil"></i>
@@ -38,7 +38,7 @@
                     @HttpContext.Current.Request.Url.ToString()@url.Action("Watch", "Video", new { pageId = editInfo.VideoPageId })
                 </a>
                 <a class="under-video-col btn btn-danger btn-no-shadow btn-ico-center p-0" style="min-width: 40px;"
-                   href="#removevideo" onclick="onRemoveVideo('@editInfo.VideoPageId', '@editInfo.VideoName')" 
+                   href="#removevideo" onclick="onRemoveVideo('@editInfo.VideoPageId', '@editInfo.VideoName')"
                    role="button" data-toggle="modal" data-slide="0">
                     <i class="fa fa-remove"></i>
                 </a>
@@ -103,4 +103,23 @@
             </div>
         </div>
     </div>
+}
+
+
+@helper VideoView(VideoHosting.Models.Database.Entities.Sinthetic.ShortVideoInfo view, System.Web.Mvc.UrlHelper url)
+{
+    <a class="text-center btn btn-primary btn-no-shadow mb-2 pl-1 pr-1" style="display: flex; flex-direction: row;"
+       href="@url.Action("Watch", "Video", new { pageId=view.VideoPageId })"
+       title="@view.VideoName">
+        <div class="p-0" style="display: inline-block; width: 50px;">
+            <img src="@view.GetThumbnailForPage()" class="" style="width: 40px; vertical-align: sub;" />
+        </div>
+        <div class="cut-text p-0 ml-1"
+             style="display: inline-block; font-size: 12px; width:100%; height: max-content; align-self: center; vertical-align: sub;">
+            @view.VideoName
+        </div>
+        <div class="pl-1" style="display: inline-block;">
+            <i class="fa fa-clock-o"></i>
+        </div>
+    </a>
 }

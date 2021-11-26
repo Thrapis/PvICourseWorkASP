@@ -1,4 +1,5 @@
 ﻿using NReco.VideoConverter;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,9 @@ namespace VideoHosting.Controllers
 				Account account = Account.FromJson(jsonAccount);
 				accountId = account.Id;
 				videoPageContext.AddAuthViewToVideoById(pageId, account.Id);
-            }
+
+				SetLastViews(this, account, connection);
+			}
 			else
             {
 				string ipAddress = Request.UserHostAddress;
@@ -84,6 +87,7 @@ namespace VideoHosting.Controllers
 			return new EmptyResult();
 		}
 
+
 		[Route("commentPost")]
 		public ContentResult CommentVideo(string pageId, string commentText)
 		{
@@ -97,6 +101,7 @@ namespace VideoHosting.Controllers
 			}
 			return Content("");
 		}
+
 
 		[Route("addTagPost")]
 		public ActionResult AddTag(string pageId, string tagName)
@@ -119,6 +124,7 @@ namespace VideoHosting.Controllers
 			return Content("");
 		}
 
+
 		[Route("removeTagPost")]
 		public ActionResult RemoveTag(string pageId, string tagName)
 		{
@@ -140,6 +146,7 @@ namespace VideoHosting.Controllers
 			return Content("");
 		}
 
+
 		[Route("updateVideoNamePost")]
 		public ActionResult UpdateVideoName(string pageId, string videoName)
 		{
@@ -160,6 +167,7 @@ namespace VideoHosting.Controllers
 			return Content("");
 		}
 		
+
 		[Route("updateThumbnailPost")]
 		public ActionResult UpdateThumbnail(string pageId, HttpPostedFileBase imageFile)
 		{
@@ -190,6 +198,7 @@ namespace VideoHosting.Controllers
 			return Content("");
 		}
 
+
 		[Route("removeVideoPost")]
 		public ActionResult RemoveVideo(string pageId)
 		{
@@ -209,6 +218,7 @@ namespace VideoHosting.Controllers
 			return Content("");
 		}
 
+
 		[Route("ratePost")]
 		public ContentResult RateVideo(string pageId, RateType rate)
         {
@@ -222,6 +232,7 @@ namespace VideoHosting.Controllers
 			}
 			return Content("");
         }
+
 
 		[Route("uploadPost")]
 		public ContentResult UploadVideo(HttpPostedFileBase videoFile, string videoName, string[] tags)
@@ -330,6 +341,13 @@ namespace VideoHosting.Controllers
 
 			if (System.IO.File.Exists(uploadedPath)) System.IO.File.Delete(uploadedPath);
 			statusContainer.AddStatus(new VideoStatus(stringGuid, "Video handled", "", 100));
+		}
+
+		private void SetLastViews(Controller controller, Account account, OracleConnection connection)
+		{
+			InfoPackageContext infoPackageContext = new InfoPackageContext(connection);
+			IEnumerable<ShortVideoInfo> lastViews = infoPackageContext.GetLastViews(account.Id);
+			controller.ViewBag.LastViews = lastViews;
 		}
 	}
 }

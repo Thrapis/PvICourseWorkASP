@@ -1,0 +1,28 @@
+﻿@using VideoHosting.Models.Utils
+@model string
+
+
+<div class="row m-1">
+    <div class="col">
+        @using (Ajax.BeginForm("GetStatistics", "Statistics", new AjaxOptions() { UpdateTargetId = "target" }))
+        {
+            <input type="hidden" name="pageId" value="@Model" />
+            <input type="hidden" name="type" value="Rate" />
+            <input class="btn btn-primary btn-no-shadow" style="width: 100%" type="submit" value="Rate Statistics" />
+        }
+    </div>
+    <div class="col">
+        @using (Ajax.BeginForm("GetStatistics", "Statistics", new AjaxOptions() { UpdateTargetId = "target" }))
+        {
+            <input type="hidden" name="pageId" value="@Model" />
+            <input type="hidden" name="type" value="View" />
+            <input class="btn btn-primary btn-no-shadow" style="width: 100%" type="submit" value="View Statistics" />
+        }
+    </div>
+</div>
+
+<div class="m-1 p-0" id="target">
+    @Html.Action("GetStatistics", "Statistics", new { pageId=Model, type="Rate"})
+</div>
+
+
