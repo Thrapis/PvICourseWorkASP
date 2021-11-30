@@ -5,10 +5,31 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">Featured Videos</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">Featured Videos</div>
 
-<div class="container">
-    
+    <div class="container mb-3">
+
+        <div class="row row-cols-auto justify-content-center">
+            @foreach (VideoPreviewInfo preview in ViewBag.Featured)
+            {
+                @VideoHelpers.VideoPreview(preview, Url)
+            }
+            @if (((IEnumerable<VideoPreviewInfo>)ViewBag.Featured).Count() == 0)
+            {
+                <div class="text-center pl-2 pr-2" style="border: 1px dashed gray; border-radius: 5px;">
+                    No one feature for you now
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">Random Videos</div>
+
+<div class="container mb-3">
+
     <div class="row row-cols-auto justify-content-center">
         @foreach (VideoPreviewInfo preview in Model)
         {

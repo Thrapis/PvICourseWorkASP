@@ -4,7 +4,7 @@
 {
     <div class="col video-preview-block">
         <a class="video-preview w-100 h-75" href="@url.Action("Watch", "Video", new { pageId=preview.VideoPageId })">
-            <img src="@preview.GetThumbnailForPage()" class="video-preview-thumbnail" />
+            <img src="@url.Action("GetThumbnail", "Video", new { pageId=preview.VideoPageId })" class="video-preview-thumbnail" />
         </a>
         <a class="video-preview-name cut-text" href="@url.Action("Watch", "Video", new { pageId=preview.VideoPageId })">
             @preview.VideoName
@@ -22,7 +22,7 @@
 
         <div class="col-4 p-0 myvideo-preview-container">
             <div id="@editInfo.VideoPageId-thumbnail">
-                <img src="@editInfo.GetThumbnailForPage()" style="max-width: 408px; max-height: 174px; width: 100%; border-radius: 5px;">
+                <img src="@url.Action("GetThumbnail", "Video", new { pageId=editInfo.VideoPageId })" style="max-width: 408px; max-height: 174px; width: 100%; border-radius: 5px;">
             </div>
             <a href="#updatethumbnail" onclick="onUpdateThumbnail('@editInfo.VideoPageId')"
                class="btn btn-primary btn-no-shadow mt-1" style="width: 100%;"
@@ -112,7 +112,7 @@
        href="@url.Action("Watch", "Video", new { pageId=view.VideoPageId })"
        title="@view.VideoName">
         <div class="p-0" style="display: inline-block; width: 50px;">
-            <img src="@view.GetThumbnailForPage()" class="" style="width: 40px; vertical-align: sub;" />
+            <img src="@url.Action("GetThumbnail", "Video", new { pageId=view.VideoPageId })" class="" style="width: 40px; vertical-align: sub;" />
         </div>
         <div class="cut-text p-0 ml-1"
              style="display: inline-block; font-size: 12px; width:100%; height: max-content; align-self: center; vertical-align: sub;">

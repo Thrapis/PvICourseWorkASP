@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using VideoHosting.Filters;
 using VideoHosting.Models.Database.Connections;
 using VideoHosting.Models.Database.Contexts;
@@ -22,6 +23,7 @@ namespace VideoHosting.Controllers
 	public class VideoController : Controller
 	{
 		[AcceptVerbs("Get"), AuthenticatedUser]
+		[OutputCache(Duration = 60, Location = OutputCacheLocation.Any, VaryByHeader = "pageId")]
 		public ActionResult Watch()
 		{
 			string pageId = Request.QueryString.Get("pageId");
@@ -51,6 +53,7 @@ namespace VideoHosting.Controllers
 
 
 		[AcceptVerbs("Get")]
+		[OutputCache(Duration = 120, Location = OutputCacheLocation.Any, VaryByHeader = "pageId;quality")]
 		public EmptyResult GetVideoSource()
 		{
 			string pageId = Request.QueryString.Get("pageId");
@@ -72,6 +75,7 @@ namespace VideoHosting.Controllers
 
 
 		[AcceptVerbs("Get")]
+		[OutputCache(Duration = 30, Location = OutputCacheLocation.Any, VaryByHeader = "pageId")]
 		public ActionResult GetThumbnail()
 		{
 			string pageId = Request.QueryString.Get("pageId");
@@ -79,11 +83,14 @@ namespace VideoHosting.Controllers
 			var connection = MainOracleConnection.GetConnection();
 			VideoThumbnailContext context = new VideoThumbnailContext(connection);
 			var preview = context.GetByVideoPageId(pageId);
+            try
+            {
+				Response.ContentType = $"image/{preview.Format.Replace(".", "")}";
+				Response.BinaryWrite(preview.Data);
+				Response.End();
 
-			Response.ContentType = $"image/{preview.Format.Replace(".", "")}";
-			Response.BinaryWrite(preview.Data);
-			Response.End();
-
+				
+			} catch (Exception) { }
 			return new EmptyResult();
 		}
 

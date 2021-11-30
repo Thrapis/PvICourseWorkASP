@@ -16,14 +16,14 @@
 
 <script src="~/Scripts/ViewScripts/watch-video.js"></script>
 
-<div class="row justify-content-center d-block mt-2 mb-2">
+<div id="videoOuterBlock" class="row justify-content-center d-block mt-2 mb-2">
     <div>
         @Html.Partial("Video")
     </div>
 </div>
 
-<div class="under-video-block cut-text m-0 mt-2 mb-2">
-    <span class="under-video-text">@Model.VideoName</span>
+<div class="under-video-block m-0 mt-2 mb-2">
+    <span class="under-video-text" id="videoNameLine" style="max-width: 800px;">@Model.VideoName</span>
     <span class="under-video-text" style="font-size: 14px;">
         @foreach (var tag in tags)
         {

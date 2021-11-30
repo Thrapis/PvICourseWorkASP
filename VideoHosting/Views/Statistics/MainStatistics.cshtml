@@ -2,9 +2,10 @@
 @model string
 
 
-<div class="row m-1">
+<div class="row m-1" style="height: 60px;">
     <div class="col">
-        @using (Ajax.BeginForm("GetStatistics", "Statistics", new AjaxOptions() { UpdateTargetId = "target" }))
+        @using (Ajax.BeginForm("GetStatistics", "Statistics", 
+            new AjaxOptions() { UpdateTargetId = "target", LoadingElementId= "accStatLoader", OnBegin= "clearTarget" }))
         {
             <input type="hidden" name="pageId" value="@Model" />
             <input type="hidden" name="type" value="Rate" />
@@ -12,7 +13,8 @@
         }
     </div>
     <div class="col">
-        @using (Ajax.BeginForm("GetStatistics", "Statistics", new AjaxOptions() { UpdateTargetId = "target" }))
+        @using (Ajax.BeginForm("GetStatistics", "Statistics",
+            new AjaxOptions() { UpdateTargetId = "target", LoadingElementId = "accStatLoader", OnBegin = "clearTarget" }))
         {
             <input type="hidden" name="pageId" value="@Model" />
             <input type="hidden" name="type" value="View" />
@@ -21,8 +23,20 @@
     </div>
 </div>
 
-<div class="m-1 p-0" id="target">
-    @Html.Action("GetStatistics", "Statistics", new { pageId=Model, type="Rate"})
+<div style="height: auto;">
+    <div class="m-1 p-0" id="target">
+        @Html.Action("GetStatistics", "Statistics", new { pageId = Model, type = "Rate" })
+    </div>
+
+    <div id="accStatLoader" style="position: relative; height: 100%; width: 100%; text-align: center; display: none;">
+        <span class="helper"></span>
+        <img src="~/Content/Images/loader.gif" style="vertical-align: middle;" />
+    </div>
 </div>
 
 
+<script>
+    function clearTarget() {
+        document.getElementById('target').innerHTML = '';
+    }
+</script>

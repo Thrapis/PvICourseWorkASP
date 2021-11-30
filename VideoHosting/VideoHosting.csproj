@@ -200,6 +200,7 @@
     <Compile Include="Models\Database\Entities\Sinthetic\ShortVideoInfo.cs" />
     <Compile Include="Models\Database\Entities\Sinthetic\VideoEditInfo.cs" />
     <Compile Include="Models\Database\Entities\Sinthetic\VideoPageInfo.cs" />
+    <Compile Include="Models\Database\Entities\Statistic\ViewData.cs" />
     <Compile Include="Models\Database\Entities\Statistic\RateData.cs" />
     <Compile Include="Models\Database\Entities\Tag.cs" />
     <Compile Include="Models\Database\Entities\VideoPage.cs" />
@@ -399,8 +400,10 @@
     <Content Include="Views\Video\VideoThumbnail.cshtml" />
     <Content Include="Views\Video\DeletedEdit.cshtml" />
     <Content Include="Views\Home\StatisticsAndAnalyse.cshtml" />
-    <Content Include="Views\Statistics\RateStatistics.cshtml" />
+    <Content Include="Views\Statistics\ViewStatistics.cshtml" />
     <Content Include="Views\Statistics\MainStatistics.cshtml" />
+    <Content Include="Views\Statistics\RateStatistics.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

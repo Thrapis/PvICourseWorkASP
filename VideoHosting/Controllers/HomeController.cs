@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using VideoHosting.Filters;
 using VideoHosting.Models.Database.Connections;
 using VideoHosting.Models.Database.Contexts;
@@ -20,11 +21,19 @@ namespace VideoHosting.Controllers
 		{
 			var connection = MainOracleConnection.GetConnection();
 			InfoPackageContext previewContext = new InfoPackageContext(connection);
-			
+
 			IEnumerable<VideoPreviewInfo> previews = previewContext.GetNFirstVideoPreview(12);
 
 			if (User.Identity.IsAuthenticated)
-				SetLastViews(this, Account.FromJson(User.Identity.Name), connection);
+            {
+				Account account = Account.FromJson(User.Identity.Name);
+
+				IEnumerable<VideoPreviewInfo> featured = previewContext.GetNFirstFeaturedVideoPreview(account.Id, 3);
+				ViewBag.Featured = featured;
+
+				SetLastViews(this, account, connection);
+			}
+				
 			return View(previews);
 		}
 
@@ -50,6 +59,7 @@ namespace VideoHosting.Controllers
 
 
 		[AuthenticatedUser]
+		[OutputCache(Duration = 240, Location = OutputCacheLocation.Any)]
 		public ActionResult VideoUpload()
 		{
 			if (User.Identity.IsAuthenticated)
@@ -84,6 +94,21 @@ namespace VideoHosting.Controllers
 			InfoPackageContext infoPackageContext = new InfoPackageContext(connection);
 			IEnumerable<ShortVideoInfo> lastViews = infoPackageContext.GetLastViews(account.Id);
 			controller.ViewBag.LastViews = lastViews;
+		}
+
+
+		[AuthenticatedUser]
+		public ActionResult Search(string searchPattern)
+		{
+			var connection = MainOracleConnection.GetConnection();
+			InfoPackageContext previewContext = new InfoPackageContext(connection);
+
+			IEnumerable<VideoPreviewInfo> previews = previewContext.SearchNFirstVideoPreviewLike(searchPattern, 12);
+			ViewBag.LastSearch = searchPattern;
+
+			if (User.Identity.IsAuthenticated)
+				SetLastViews(this, Account.FromJson(User.Identity.Name), connection);
+			return View(previews);
 		}
 	}
 }

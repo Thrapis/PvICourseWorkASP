@@ -25,6 +25,7 @@ namespace VideoHosting.Controllers
             switch (type)
             {
                 case "Rate": return PartialView("RateStatistics", analyseContext.GetRateData(pageId));
+                case "View": return PartialView("ViewStatistics", analyseContext.GetViewData(pageId));
                 default: break;
             }
             return Content("");

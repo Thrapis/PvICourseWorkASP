@@ -30,6 +30,28 @@ namespace VideoHosting.Models.Database.Contexts
             return _connection.Query<VideoPreviewInfo>(sql, parameters, commandType: CommandType.StoredProcedure);
         }
 
+        public IEnumerable<VideoPreviewInfo> GetNFirstFeaturedVideoPreview(int accountId, int n)
+        {
+            OracleDynamicParameters parameters = new OracleDynamicParameters();
+            parameters.Add("@par_account_id", accountId, OracleMappingType.Int32, ParameterDirection.Input);
+            parameters.Add("@par_recommendations_count", n, OracleMappingType.Int32, ParameterDirection.Input);
+            parameters.Add("@featured_video_preview_cur", null, OracleMappingType.RefCursor, ParameterDirection.Output);
+
+            string sql = $@"InfoPackage.GetNFirstFeaturedVideoPreview";
+            return _connection.Query<VideoPreviewInfo>(sql, parameters, commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<VideoPreviewInfo> SearchNFirstVideoPreviewLike(string pattern, int n)
+        {
+            OracleDynamicParameters parameters = new OracleDynamicParameters();
+            parameters.Add("@par_like_pattern", pattern, OracleMappingType.NVarchar2, ParameterDirection.Input);
+            parameters.Add("@par_count", n, OracleMappingType.Int32, ParameterDirection.Input);
+            parameters.Add("@video_preview_cur", null, OracleMappingType.RefCursor, ParameterDirection.Output);
+
+            string sql = $@"InfoPackage.SearchNFirstVideoPreviewLike";
+            return _connection.Query<VideoPreviewInfo>(sql, parameters, commandType: CommandType.StoredProcedure);
+        }
+
         public VideoPageInfo GetVideoPageInfo(string pageId, int accountId)
         {
             OracleDynamicParameters parameters = new OracleDynamicParameters();

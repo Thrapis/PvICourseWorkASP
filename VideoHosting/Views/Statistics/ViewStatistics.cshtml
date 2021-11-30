@@ -1,24 +1,22 @@
 ﻿@using VideoHosting.Models.Database.Entities.Statistic
 @using VideoHosting.Models.Utils 
-@model IEnumerable<RateData>
+@model IEnumerable<ViewData>
 
 <script src="~/Scripts/Chart.min.js"></script>
 <script src="~/Scripts/Chart.js"></script>
 
 <div class="m-1 text-center">
-    Rate Statistics (<span style="font-weight: 600;">@ViewBag.VideoName</span>)
+    View Statistics (<span style="font-weight: 600;">@ViewBag.VideoName</span>)
 </div>
 
 <canvas id="myChart" width="400" height="200"></canvas>
 
 @{
-    int[] arr1 = Model.Select(rd => rd.PositiveCount).ToArray();
-    int[] arr2 = Model.Select(rd => rd.NegativeCount).ToArray();
+    int[] arr = Model.Select(vd => vd.ViewCount).ToArray();
     string[] periods = Model.Select(rd => rd.Label).ToArray();
 
     var labels = Html.StringArrayToJSString(periods);
-    var data1 = Html.IntArrayToJSString(arr1);
-    var data2 = Html.IntArrayToJSString(arr2);
+    var data = Html.IntArrayToJSString(arr);
 }
 
 <script>
@@ -26,15 +24,9 @@
         labels: @labels,
         datasets: [
             {
-                label: 'Likes',
-                data: @data1,
-                borderColor: 'Green',
-                backgroundColor: 'Transparent',
-            },
-            {
-                label: 'Dislikes',
-                data: @data2,
-                borderColor: 'Red',
+                label: 'Views',
+                data: @data,
+                borderColor: 'Blue',
                 backgroundColor: 'Transparent',
             }
         ]
