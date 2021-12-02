@@ -1,0 +1,62 @@
+﻿@using VideoHosting.Models.Database.Entities.Statistic
+@using VideoHosting.Models.Utils
+@model IEnumerable<CommentData>
+
+<script src="~/Scripts/Chart.min.js"></script>
+<script src="~/Scripts/Chart.js"></script>
+
+<div class="m-1 text-center">
+    Comment Statistics (<span style="font-weight: 600;">@ViewBag.VideoName</span>)
+</div>
+
+<canvas id="myChart" width="400" height="200"></canvas>
+
+@{
+    int[] arr = Model.Select(vd => vd.CommentCount).ToArray();
+    string[] periods = Model.Select(rd => rd.Label).ToArray();
+
+    var labels = Html.StringArrayToJSString(periods);
+    var data = Html.IntArrayToJSString(arr);
+}
+
+<script>
+    data = {
+        labels: @labels,
+        datasets: [
+            {
+                label: 'Views',
+                data: @data,
+                borderColor: 'DeepPink',
+                backgroundColor: 'Transparent',
+            }
+        ]
+    };
+
+    config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Chart.js Line Chart'
+                }
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+        }
+    };
+
+    ctx = document.getElementById('myChart').getContext('2d');
+    myChart = new Chart(ctx, config);
+
+</script>

@@ -1,4 +1,5 @@
-﻿@using VideoHosting.Models.Database.Entities
+﻿@using VideoHosting.Models.Utils
+@using VideoHosting.Models.Database.Entities
 @using VideoHosting.Models.Database.Entities.Sinthetic
 @model VideoPageInfo
 
@@ -22,12 +23,14 @@
     </div>
 </div>
 
+
+
 <div class="under-video-block m-0 mt-2 mb-2">
     <span class="under-video-text" id="videoNameLine" style="max-width: 800px;">@Model.VideoName</span>
     <span class="under-video-text" style="font-size: 14px;">
         @foreach (var tag in tags)
         {
-            <a href="#">#@tag.Name</a>
+            <a href="@Url.Action("Search", "Home", new { searchPattern="#"+tag.Name })">#@tag.Name</a>
             <span>&nbsp;</span>
         }
     </span>

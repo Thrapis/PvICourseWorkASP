@@ -26,6 +26,7 @@ namespace VideoHosting.Controllers
             {
                 case "Rate": return PartialView("RateStatistics", analyseContext.GetRateData(pageId));
                 case "View": return PartialView("ViewStatistics", analyseContext.GetViewData(pageId));
+                case "Comment": return PartialView("CommentStatistics", analyseContext.GetCommentData(pageId));
                 default: break;
             }
             return Content("");

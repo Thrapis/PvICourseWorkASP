@@ -4,8 +4,8 @@
 
 <div class="row m-1" style="height: 60px;">
     <div class="col">
-        @using (Ajax.BeginForm("GetStatistics", "Statistics", 
-            new AjaxOptions() { UpdateTargetId = "target", LoadingElementId= "accStatLoader", OnBegin= "clearTarget" }))
+        @using (Ajax.BeginForm("GetStatistics", "Statistics",
+            new AjaxOptions() { UpdateTargetId = "target", LoadingElementId = "accStatLoader", OnBegin = "clearTarget" }))
         {
             <input type="hidden" name="pageId" value="@Model" />
             <input type="hidden" name="type" value="Rate" />
@@ -19,6 +19,15 @@
             <input type="hidden" name="pageId" value="@Model" />
             <input type="hidden" name="type" value="View" />
             <input class="btn btn-primary btn-no-shadow" style="width: 100%" type="submit" value="View Statistics" />
+        }
+    </div>
+    <div class="col">
+        @using (Ajax.BeginForm("GetStatistics", "Statistics",
+            new AjaxOptions() { UpdateTargetId = "target", LoadingElementId = "accStatLoader", OnBegin = "clearTarget" }))
+        {
+            <input type="hidden" name="pageId" value="@Model" />
+            <input type="hidden" name="type" value="Comment" />
+            <input class="btn btn-primary btn-no-shadow" style="width: 100%" type="submit" value="Comment Statistics" />
         }
     </div>
 </div>

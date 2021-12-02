@@ -38,6 +38,16 @@ namespace VideoHosting.Models.Database.Contexts
             string sql = $@"VideoAnalysePackage.GetViewData";
             return _connection.Query<ViewData>(sql, parameters, commandType: CommandType.StoredProcedure);
         }
+        
+        public IEnumerable<CommentData> GetCommentData(string pageId)
+        {
+            OracleDynamicParameters parameters = new OracleDynamicParameters();
+            parameters.Add("@par_page_id", pageId, OracleMappingType.NVarchar2, ParameterDirection.Input);
+            parameters.Add("@comment_data_cur", null, OracleMappingType.RefCursor, ParameterDirection.Output);
+
+            string sql = $@"VideoAnalysePackage.GetCommentData";
+            return _connection.Query<CommentData>(sql, parameters, commandType: CommandType.StoredProcedure);
+        }
 
         public void Dispose()
         {

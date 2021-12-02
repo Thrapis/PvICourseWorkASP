@@ -35,6 +35,11 @@ namespace VideoHosting.Models.Utils
             return helper.Raw(result);
         }
 
+        public static IHtmlString StringToJSString(this HtmlHelper helper, string str)
+        {
+            return helper.Raw(str);
+        }
+
         public static IHtmlString ColorArrayToJSString(this HtmlHelper helper, Color[] colors)
         {
             string result = "[";
