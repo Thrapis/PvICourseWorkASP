@@ -1,0 +1,18 @@
+﻿@using VideoHosting.Models.Database.Entities.Sinthetic
+@model IEnumerable<VideoPreviewInfo>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">Search results</div>
+
+<div class="container mb-3">
+
+    <div class="row row-cols-auto justify-content-center">
+        @foreach (VideoPreviewInfo preview in Model)
+        {
+            @VideoHelpers.VideoPreview(preview, Url)
+        }
+    </div>
+</div>

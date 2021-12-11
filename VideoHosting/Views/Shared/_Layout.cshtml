@@ -1,10 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+	@{ 
+        ViewBag.SiteName = "Video Side";
+		string SiteName = ViewBag.SiteName;
+	}
+
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Site. @ViewBag.Title</title>
+    <title>@ViewBag.Title | @SiteName</title>
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
 	
@@ -27,8 +32,8 @@
 		<div class="container w-100 p-0">
             <div class="row container w-100 p-0">
                 <div class="col-3 navbar-header justify-content-start" style="min-width: 140px;">
-                    <a href="/"><img src='@Url.Content("~/Content/Images/app_ico_blue.png")' class="app_ico" /></a>
-                    @Html.ActionLink("Site", "Index", "Home", new { area = "" }, new { @class = "navbar-brand btn btn-no-shadow m-0 p-0", @style = "color: white; align-self: middle;" })
+                    <a href="/"><img src='@Url.Content("~/Content/Images/video_ico.png")' class="app_ico" /></a>
+                    @Html.ActionLink(SiteName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand btn btn-no-shadow m-0 p-0", @style = "color: white; align-self: middle;" })
                 </div>
 
                 @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { @class = "col-6 navbar-header justify-content-center" }))
@@ -95,16 +100,17 @@
 										 {
 											 @class = "btn btn-primary btn-no-shadow mb-1"
 										 })
-								@Html.ActionLink("Upload video", "VideoUpload", "Home", new { area = "" },
-									new
-										 {
-											 @class = "btn btn-primary btn-no-shadow mb-1"
-										 })
 								@Html.ActionLink("Video statistics", "StatisticsAndAnalyse", "Home", new { area = "" },
 									new
 										 {
 											 @class = "btn btn-primary btn-no-shadow mb-1"
 										 })
+								@Html.ActionLink("Upload video", "VideoUpload", "Home", new { area = "" },
+									new
+										 {
+											 @class = "btn btn-primary btn-no-shadow mb-1"
+										 })
+								
 						</div>
 					}
 				</div>
@@ -173,7 +179,7 @@
 	<div class="bg-dark text-white pt-3 pb-3" style="margin-bottom: 0; margin-top: auto;">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col text-sm-left">Copyright © 2021 - Site</div>
+				<div class="col text-sm-left">Copyright © 2021 - @SiteName</div>
 				<div class="col text-sm-right">Belski Artsiom</div>
 			</div>
 		</div>

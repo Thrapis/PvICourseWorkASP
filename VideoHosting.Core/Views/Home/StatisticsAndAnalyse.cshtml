@@ -1,0 +1,57 @@
+﻿@using VideoHosting.Models.Database.Entities.Sinthetic
+@model IEnumerable<ShortVideoInfo>
+
+@{ 
+    ViewBag.Title = "Statistics and Analyse";
+}
+
+<div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">Statistics and Analyse</div>
+
+<div class="row ml-1 mr-1">
+    <div class="col-3 list-group list-group-flush border border-primary p-2"
+         style="height: 400px; overflow-y:auto; border-radius: 5px;">
+        @foreach (var select in Model)
+        {
+            using (Ajax.BeginForm("GetMianStatistics", "Statistics", new { area="" },
+                new AjaxOptions() { UpdateTargetId="statisticsPage", LoadingElementId= "statLoader",
+                    OnBegin="clear" }, new { @class= "" }))
+            {
+                <input type="hidden" name="pageId" value="@select.VideoPageId" />
+
+                <button type="submit" class="text-center btn btn-outline-primary btn-no-shadow mb-2 pl-1 pr-1"
+                        style="display: flex; flex-direction: row; width: 100%;" title="@select.VideoName">
+
+                    <div class="p-0" style="display: inline-block; width: 50px;">
+                        <img src="@Url.Action("GetThumbnail", "Video", new { pageId=select.VideoPageId })" class="" style="width: 40px; vertical-align: sub;" />
+                    </div>
+                    <div class="p-0 ml-1 cut-text"
+                         style="display: inline-block; font-size: 12px; width: 100%; height: max-content; align-self: center; vertical-align: sub;">
+                        @select.VideoName
+                    </div>
+                    <div class="pl-1" style="display: inline-block;">
+                        <i class="fa fa-arrow-circle-o-right"></i>
+                    </div>
+
+                </button>
+            }
+        }
+    </div>
+    
+    <div class="col-9 border border-primary mb-3" style="border-radius: 5px; min-height: 400px;">
+        <div id="statisticsPage" style="display: flex; flex-direction: column; text-align: center;">
+            
+        </div>
+
+        <div id="statLoader" style="position: relative; height: 100%; width: 100%; text-align: center; display: none;">
+            <span class="helper"></span>
+            <img src="~/Content/Images/loader.gif" style="vertical-align: middle;" />
+        </div>
+    </div>
+</div>
+
+<script>
+    function clear() {
+        document.getElementById('statisticsPage').innerHTML = '';
+    }
+</script>
+

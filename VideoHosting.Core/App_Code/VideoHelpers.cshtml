@@ -1,0 +1,124 @@
+﻿@{
+    void VideoPreview(VideoHosting.Models.Database.Entities.Sinthetic.VideoPreviewInfo preview, System.Web.Mvc.UrlHelper url)
+    {
+        <div class="col video-preview-block">
+            <a class="video-preview w-100 h-75" href="@url.Action("Watch", "Video", new { pageId=preview.VideoPageId })">
+                <img src="@url.Action("GetThumbnail", "Video", new { pageId=preview.VideoPageId })" class="video-preview-thumbnail" />
+            </a>
+            <a class="video-preview-name cut-text" href="@url.Action("Watch", "Video", new { pageId=preview.VideoPageId })">
+                @preview.VideoName
+            </a>
+            <div class="video-preview-author-views">
+                <div class="col-6 text-left cut-text" style="padding: 0px;">@preview.Author</div>
+                <div class="col-6 text-right cut-text" style="padding: 0px;">@preview.Views views</div>
+            </div>
+        </div>
+    }
+
+    void MyVideoListElement(VideoHosting.Models.Database.Entities.Sinthetic.VideoEditInfo editInfo, System.Web.Mvc.UrlHelper url)
+    {
+        <div id="@editInfo.VideoPageId-editblock" class="row myvideo-container">
+
+            <div class="col-4 p-0 myvideo-preview-container">
+                <div id="@editInfo.VideoPageId-thumbnail">
+                    <img src="@url.Action("GetThumbnail", "Video", new { pageId=editInfo.VideoPageId })" style="max-width: 408px; max-height: 174px; width: 100%; border-radius: 5px;">
+                </div>
+                <a href="#updatethumbnail" onclick="onUpdateThumbnail('@editInfo.VideoPageId')"
+                   class="btn btn-primary btn-no-shadow mt-1" style="width: 100%;"
+                   role="button" data-toggle="modal" data-slide="0">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            </div>
+
+            <div class="col-8" style="display: flex; flex-direction: column; align-self: center;">
+
+                <div class="under-video-row">
+                    <a class="under-video-col cut-text mt-1 mb-1" style="white-space: inherit; font-size: 16px;" href="@url.Action("Watch", "Video", new { pageId=editInfo.VideoPageId })">
+                        @HttpContext.Current.Request.Url.ToString()@url.Action("Watch", "Video", new { pageId = editInfo.VideoPageId })
+                    </a>
+                    <a class="under-video-col btn btn-danger btn-no-shadow btn-ico-center p-0" style="min-width: 40px;"
+                       href="#removevideo" onclick="onRemoveVideo('@editInfo.VideoPageId', '@editInfo.VideoName')"
+                       role="button" data-toggle="modal" data-slide="0">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </div>
+
+                <div type="text" class="myvideo-text-edit row justify-content-between">
+                    <div id="@editInfo.VideoPageId-videoname" class="col-10 cut-text p-0" style="align-self: center;">
+                        @editInfo.VideoName
+                    </div>
+                    <div class="col-2 text-right cut-text p-0">
+                        <a href="#updatevideoname" onclick="onUpdateVideoName('@editInfo.VideoPageId', '@editInfo.VideoName')"
+                           role="button" data-toggle="modal" data-slide="0"
+                           class="btn btn-primary btn-no-shadow p-0" style="width: 100%; height: 30px;">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row border border-dark p-1 m-0 mt-1 mb-1" style="height: min-content; border-radius: 5px;">
+
+                    <div id="@editInfo.VideoPageId-tags" class="col-11 myvideo-tag-edit">
+                        @foreach (var tag in editInfo.Tags)
+                        {
+                            <a href="#removetag" onclick="onRemoveTag('@tag.VideoPageId', '@tag.Name')"
+                               class="btn btn-outline-primary btn-no-shadow m-1" style="height: 40px; font-size: 12px;"
+                               role="button" data-toggle="modal" data-slide="0">
+                                #@tag.Name
+                                <i class="fa fa-close"></i>
+                            </a>
+                        }
+                    </div>
+
+                    <a href="#addtag" onclick="onAddTag('@editInfo.VideoPageId')" class="col-1 btn btn-primary btn-no-shadow btn-ico-center" style="width: 30px; padding: 0;"
+                       role="button" data-toggle="modal" data-slide="0">
+                        <i class="fa fa-plus-circle"></i>
+                    </a>
+                </div>
+
+
+                <div class="under-video-block mt-2 mb-2">
+                    <div class="under-video-row">
+                        <div class="under-video-col">
+                            <div style="display: inline-block; vertical-align: middle;">
+                                @editInfo.Views views...
+                            </div>
+                        </div>
+                        <div class="under-video-col">
+                            <div class="pl-1 pr-1" style="display: inline-block; border: 1px solid green">
+                                Likes: @editInfo.PositiveRates
+                            </div>
+                            <div class="pl-1 pr-1" style="display: inline-block; border: 1px solid red">
+                                Dislikes: @editInfo.NegativeRates
+                            </div>
+                        </div>
+
+                        <div class="under-video-col">
+                            <div style="display: inline-block;">
+                                Uploaded: @editInfo.PageCreationDate.ToString("dd.MM.yyyy")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    void VideoView(VideoHosting.Models.Database.Entities.Sinthetic.ShortVideoInfo view, UrlHelper url)
+    {
+        <a class="text-center btn btn-primary btn-no-shadow mb-2 pl-1 pr-1" style="display: flex; flex-direction: row;"
+           href="@url.Action("Watch", "Video", new { pageId=view.VideoPageId })"
+           title="@view.VideoName">
+            <div class="p-0" style="display: inline-block; width: 50px;">
+                <img src="@url.Action("GetThumbnail", "Video", new { pageId=view.VideoPageId })" class="" style="width: 40px; vertical-align: sub;" />
+            </div>
+            <div class="cut-text p-0 ml-1"
+                 style="display: inline-block; font-size: 12px; width:100%; height: max-content; align-self: center; vertical-align: sub;">
+                @view.VideoName
+            </div>
+            <div class="pl-1" style="display: inline-block;">
+                <i class="fa fa-clock-o"></i>
+            </div>
+        </a>
+    }
+}

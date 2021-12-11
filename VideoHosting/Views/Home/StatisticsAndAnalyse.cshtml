@@ -8,8 +8,8 @@
 <div class="mb-2 text-center" style="width: 100%; font-size: 20px; font-weight: 400;">Statistics and Analyse</div>
 
 <div class="row ml-1 mr-1">
-    <div class="col-3 list-group list-group-flush border border-primary p-2"
-         style="height: 400px; overflow-y:auto; border-radius: 5px;">
+    <div class="col-3 list-group list-group-flush border-primary p-2"
+         style="height: 440px; overflow-y:auto; border-radius: 5px; border: solid 2px;">
         @foreach (var select in Model)
         {
             using (Ajax.BeginForm("GetMianStatistics", "Statistics", new { area="" },
@@ -37,7 +37,7 @@
         }
     </div>
     
-    <div class="col-9 border border-primary mb-3" style="border-radius: 5px; min-height: 400px;">
+    <div class="col-9 border-primary mb-3" style="border-radius: 5px; min-height: 440px; border: solid 2px;">
         <div id="statisticsPage" style="display: flex; flex-direction: column; text-align: center;">
             
         </div>

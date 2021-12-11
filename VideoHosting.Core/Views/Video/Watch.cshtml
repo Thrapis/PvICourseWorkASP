@@ -1,0 +1,243 @@
+﻿@using VideoHosting.Models.Utils
+@using VideoHosting.Models.Database.Entities
+@using VideoHosting.Models.Database.Entities.Sinthetic
+@using Microsoft.AspNetCore.Html
+@model VideoPageInfo
+
+@{
+    ViewBag.Title = "Watch";
+    IEnumerable<Tag> tags = Model.Tags;
+    IEnumerable<CommentInfo> comments = Model.Comments;
+    int lastCommentId = 0;
+    if (comments.Count() > 0)
+    {
+        lastCommentId = comments.Max(c => c.CommentId);
+    }
+
+}
+
+<script src="~/Scripts/ViewScripts/watch-video.js"></script>
+
+<div id="videoOuterBlock" class="row justify-content-center d-block mt-2 mb-2">
+    <div>
+        @Html.Partial("Video")
+    </div>
+</div>
+
+
+
+<div class="under-video-block m-0 mt-2 mb-2">
+    <span class="under-video-text" id="videoNameLine" style="max-width: 800px;">@Model.VideoName</span>
+    <span class="under-video-text" style="font-size: 14px;">
+        @foreach (var tag in tags)
+        {
+            <a href="@Url.Action("Search", "Home", new { searchPattern="#"+tag.Name })">#@tag.Name</a>
+            <span>&nbsp;</span>
+        }
+    </span>
+</div>
+
+<div class="under-video-block mt-2 mb-2">
+    <div class="under-video-row">
+        <div class="under-video-col">
+            <div style="display: inline-block; vertical-align: middle;">
+                <img src="@Url.Content("~/Content/Images/user.png")" class="account-photo">
+            </div>
+            <div style="display: inline-block; vertical-align: top; font-weight: 500;">
+                <div>@Model.Author</div>
+                <div>@Model.Views views...</div>
+            </div>
+        </div>
+        <div class="under-video-col">
+            <div style="display: inline-block;">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    using (Ajax.BeginForm("RateVideo", "Video", new { area = "" }, new AjaxOptions() { OnSuccess = "rateResult(data, status, xhr)" }))
+                    {
+                        <input type="hidden" name="pageId" value="@Model.VideoPageId" />
+                        <input type="hidden" name="rate" value="@AuthVideoView.RateType.Like" />
+                        <button class="btn btn-outline-success btn-no-shadow" style="height: 50px;">
+                            @if (Model.Rate == AuthVideoView.RateType.Like)
+                            {
+                                <i id="like-icon" class="fa fa-thumbs-up" style="height: 20px;"></i>
+                            }
+                            else
+                            {
+                                <i id="like-icon" class="fa fa-thumbs-o-up" style="height: 20px;"></i>
+                            }
+                            <span>Like  <span id="like-counter">@Model.PositiveRates</span></span>
+                        </button>
+                    }
+                }
+                else
+                {
+                    <div class="btn btn-outline-success disabled">
+                        <i id="like-icon" class="fa fa-thumbs-o-up" style="height: 20px;"></i>
+                        <span>Like  @Model.PositiveRates</span>
+                    </div>
+                }
+            </div>
+            <div style="display: inline-block;">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    using (Ajax.BeginForm("RateVideo", "Video", new { area = "" }, new AjaxOptions() { OnSuccess = "rateResult(data, status, xhr)" }))
+                    {
+                        <input type="hidden" name="pageId" value="@Model.VideoPageId" />
+                        <input type="hidden" name="rate" value="@AuthVideoView.RateType.Dislike" />
+                        <button class="btn btn-outline-danger btn-no-shadow" style="height: 50px;">
+                            @if (Model.Rate == AuthVideoView.RateType.Dislike)
+                            {
+                                <i id="dislike-icon" class="fa fa-thumbs-down" style="height: 20px;"></i>
+                            }
+                            else
+                            {
+                                <i id="dislike-icon" class="fa fa-thumbs-o-down" style="height: 20px;"></i>
+                            }
+                            <span>Dislike  <span id="dislike-counter">@Model.NegativeRates</span></span>
+                        </button>
+                    }
+                }
+                else
+                {
+                    <div class="btn btn-outline-danger disabled">
+                        <i id="dislike-icon" class="fa fa-thumbs-o-down" style="height: 20px;"></i>
+                        <span>Dislike  @Model.NegativeRates</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/WebSocket/new-comments.js"></script>
+<script type="text/javascript">
+    exe_start('@Model.VideoPageId', @lastCommentId);
+</script>
+
+<div class="under-video-block mt-2 mb-2">
+    <div class="" style="font-weight: 500">
+        Comments
+    </div>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="under-video-block mt-2 mb-4">
+        <a href="#addcomment" class="btn btn-outline-primary btn-add-comment btn-no-shadow"
+           role="button" data-toggle="modal" data-slide="0">
+            <i class="fa fa-plus"></i>
+            <i class="fa fa-commenting"></i>
+        </a>
+    </div>
+}
+
+<div id="commentsContainer" class="under-video-block mt-2 mb-5">
+    @foreach (var comment in comments)
+    {
+        string setTimeTemplate = "<div class='video-set-time' onclick=\"setUserTime('TIME')\">TIME</div>";
+        string text = comment.Text;
+        string pattern = @"([0-5]?\d:[0-5]?\d)";
+        foreach (System.Text.RegularExpressions.Match match in System.Text.RegularExpressions.Regex.Matches(text, pattern))
+        {
+            if (match.Success && match.Groups.Count > 0)
+            {
+                string matchGroup = match.Groups[1].Value;
+                string setTimeFormatted = setTimeTemplate.Replace("TIME", matchGroup);
+                text = text.Replace(matchGroup, setTimeFormatted);
+            }
+        }
+
+        <div class="comment-block">
+            <div class="comment-cloud">
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div class="comment-name-wrap">
+                        <img src="~/Content/Images/user.png" class="comment-photo">
+                        <div class="comment-overtext">@comment.AuthorName</div>
+                    </div>
+                    <div class="comment-overtext">@comment.CommentDate</div>
+                </div>
+                <hr style="width: auto; margin: 4px;" />
+                <div class="comment-undertext">@(new HtmlString(text))</div>
+                <hr style="width: auto; margin: 4px;" />
+            </div>
+        </div>
+    }
+</div>
+
+<template id="commentrow">
+    <div class="comment-block">
+        <div class="comment-cloud">
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div class="comment-name-wrap">
+                    <img src="~/Content/Images/user.png" class="comment-photo">
+                    <div id="authorNameField" class="comment-overtext"></div>
+                </div>
+                <div id="commentDateField" class="comment-overtext"></div>
+            </div>
+            <hr style="width: auto; margin: 4px;" />
+            <div id="textField" class="comment-undertext"></div>
+            <hr style="width: auto; margin: 4px;" />
+        </div>
+    </div>
+</template>
+
+
+<div id="addcomment" class="modal fade" role="dialog" style="padding-right: 16px; display: none;" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            @using (Ajax.BeginForm("CommentVideo", "Video", new AjaxOptions() { OnComplete = "afterComment()" }))
+            {
+                <div class="modal-body">
+                    <div class="carousel slide" data-ride="carousel" tabindex="-1" id="carousel">
+
+                        <input type="hidden" name="pageId" value="@Model.VideoPageId" />
+                        <div class="add-comment-container">
+                            <span id="commentForText" class="mt-1 mb-1">Add comment</span>
+                            <textarea class="add-comment-textarea" id="commentText"
+                                      name="commentText" rows="6" maxlength="256" required></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="loading_gif_container">
+                    <img id="loading" src="@Url.Content("~/Content/Images/loader.gif")" class="loading_gif" style="display:none;" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success btn-no-shadow px-3" value="Done" />
+                    <a href="#" role="button" data-dismiss="modal" class="btn btn-danger btn-no-shadow px-3">Close</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    var observer = new MutationObserver(function (mutationsList, observer) {
+        let modal = document.getElementById('addcomment');
+        if (modal.style.display == 'none') BlockVideoHots = false;
+        else BlockVideoHots = true;
+    });
+    observer.observe(document.getElementById('addcomment'), { attributes: true });
+
+    function limitWord(fieldId, length) {
+        if (length == undefined) length = 5;
+        document.getElementById(fieldId).onkeydown = function () {
+            var change = 0;
+            var output = '';
+            var input = this.value;
+            output = input.split(/([\s^-]+)/g).map(function (e, i) {
+                if (i % 2 == 0) {
+                    if (e.length > length) {
+                        change = 1;
+                    }
+                    return e.substr(0, length);
+                } else return e;
+            }).join('')
+            if (change == 1) {
+                document.getElementById(fieldId).value = output;
+            }
+        }
+    }
+    limitWord('commentText', 32);
+</script>
+

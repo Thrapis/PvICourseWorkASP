@@ -23,7 +23,6 @@ namespace VideoHosting.Controllers
 	public class VideoController : Controller
 	{
 		[AcceptVerbs("Get"), AuthenticatedUser]
-		[OutputCache(Duration = 60, Location = OutputCacheLocation.Any, VaryByHeader = "pageId")]
 		public ActionResult Watch()
 		{
 			string pageId = Request.QueryString.Get("pageId");
