@@ -26,17 +26,23 @@ namespace VideoHosting.Handlers
                 context.AcceptWebSocketRequest(WebSocketRequest);
         }
 
-        private async Task WebSocketRequest(AspNetWebSocketContext context)
+        private async Task WebSocketRequest(
+            AspNetWebSocketContext context)
         {
             socket = context.WebSocket;
             string pageId = await Receive();
 
-            VideoStatusContainer statusContainer = VideoStatusContainer.GetInstance();
-            VideoStatus status = statusContainer.GetStatus(pageId);
+            VideoStatusContainer statusContainer
+                = VideoStatusContainer.GetInstance();
+            VideoStatus status = 
+                statusContainer.GetStatus(pageId);
 
             if (status == null)
             {
-                await socket.CloseAsync(WebSocketCloseStatus.Empty, "No video page by this id", CancellationToken.None);
+                await socket.CloseAsync(
+                    WebSocketCloseStatus.Empty,
+                    "No video page by this id",
+                    CancellationToken.None);
                 return;
             }
             await Send(status.ToJson());
@@ -51,10 +57,9 @@ namespace VideoHosting.Handlers
 
         private async Task<string> Receive()
         {
-            string rc = null;
             var buffer = new ArraySegment<byte>(new byte[512]);
             var result = await socket.ReceiveAsync(buffer, CancellationToken.None);
-            rc = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
+            string rc = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
             return rc;
         }
 

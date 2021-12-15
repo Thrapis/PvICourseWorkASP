@@ -14,9 +14,7 @@ namespace VideoHosting.Models.Database.Entities
         public byte[] Data { get; set; }
         public long Size { get; set; }
         public string Format { get; set; }
-
         public VideoThumbnail() { }
-
         public VideoThumbnail(string imagePath, string videoPageId)
         {
             using (FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
@@ -33,7 +31,6 @@ namespace VideoHosting.Models.Database.Entities
                 }
             }
         }
-
         public string GetForPage()
         {
             string base64String = Convert.ToBase64String(Data, 0, Data.Length);

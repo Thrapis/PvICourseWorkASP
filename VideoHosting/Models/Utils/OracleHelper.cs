@@ -7,7 +7,7 @@ using System.Web;
 
 namespace VideoHosting.Models.Utils
 {
-    public class OracleHelper
+    public static class OracleHelper
     {
         public static OracleConnection GetDBConnection(string host, int port, string sid, string user, string password)
         {

@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="VideoHosting.Models.Database.Connections.MainOracleConnection">
+    <Position X="5.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Models\Database\Connections\MainOracleConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Contexts.AccountContext" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACACAACAAAAAAAAAABAAAAAAAgAAAQQAAAAAABAA=</HashCode>
+      <FileName>Models\Database\Contexts\AccountContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Contexts.InfoPackageContext" BaseTypeListCollapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAgBAAAACAAAEAAAAAABAAACAAAAAABAAQAAAAABIA=</HashCode>
+      <FileName>Models\Database\Contexts\InfoPackageContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Contexts.TagContext" BaseTypeListCollapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAFAAACAAAAAAAAAABAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Models\Database\Contexts\TagContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Contexts.VideoAnalyseContext">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAACgAAAAAgAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Models\Database\Contexts\VideoAnalyseContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Contexts.VideoPageContext" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAIACCAAAAAIAQABgEgAAAAAAAAAAAAAAAABKQ=</HashCode>
+      <FileName>Models\Database\Contexts\VideoPageContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Contexts.VideoSourceContext" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAEAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Models\Database\Contexts\VideoSourceContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Contexts.VideoThumbnailContext" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAACCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Models\Database\Contexts\VideoThumbnailContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Account">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAAAAACAAAAAAAQAAAAAAAAAAAAAAIAAQAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.AuthVideoView">
+    <Position X="15" Y="5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="VideoHosting.Models.Database.Entities.AuthVideoView.RateType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\Database\Entities\AuthVideoView.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAACAAAAAAAAAAAAAgAAAAAAAAAAAAAABAACAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\AuthVideoView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Comment">
+    <Position X="2.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAgAAAAAAAAAAAAAABAACCAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\Comment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.NonAuthVideoView">
+    <Position X="15" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAABAACAAACAAA=</HashCode>
+      <FileName>Models\Database\Entities\NonAuthVideoView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Tag">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\Tag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.VideoPage">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAAAAAAAAAAAAAgAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\VideoPage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.VideoSource">
+    <Position X="7.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAgABAAAAAAAAAAAgAABAABAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\VideoSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.VideoThumbnail">
+    <Position X="5.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAgAAAgAAAAAAAAAAAAAgAABAABAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\VideoThumbnail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Sinthetic.CommentInfo">
+    <Position X="13" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACQAAAAAAAAAAAAAgIBACCAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\Sinthetic\CommentInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Sinthetic.ShortVideoInfo">
+    <Position X="11.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\Sinthetic\ShortVideoInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Sinthetic.VideoEditInfo">
+    <Position X="13" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAgAAAAgAAAAIAAAAAAAAEAQBAAAAIAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\Sinthetic\VideoEditInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Sinthetic.VideoPageInfo">
+    <Position X="11.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QgAAAAAAAAAAAAAggAAAIAAAAAAAAEAQBAAAAIAAIAA=</HashCode>
+      <FileName>Models\Database\Entities\Sinthetic\VideoPageInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Sinthetic.VideoPreviewInfo">
+    <Position X="13" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAgAAAIAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\Sinthetic\VideoPreviewInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Statistic.CommentData">
+    <Position X="9.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAQAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\Statistic\CommentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Statistic.RateData">
+    <Position X="9.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAgAAAAAAAAAAAAAAAAAAAABAAAAAAAgAA=</HashCode>
+      <FileName>Models\Database\Entities\Statistic\RateData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Database.Entities.Statistic.ViewData">
+    <Position X="9.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAABAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\Entities\Statistic\ViewData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Page.LoginModel">
+    <Position X="5.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Page\LoginModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Page.RegisterModel">
+    <Position X="5.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAQAAAAAEA=</HashCode>
+      <FileName>Models\Page\RegisterModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Status.VideoStatus">
+    <Position X="12.5" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAQAAAAAAAAAAABAEAAAAAAAAAAIAAAAACAAAA=</HashCode>
+      <FileName>Models\Status\VideoStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Status.VideoStatusContainer">
+    <Position X="12.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAIAAAAAAAAAAAAAAEBAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Status\VideoStatusContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Utils.CSharpToJSConverter">
+    <Position X="8.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAIAABAAAAAIAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Models\Utils\CSharpToJSConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Utils.FilePathHelper">
+    <Position X="10" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Utils\FilePathHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Utils.GuidHelper">
+    <Position X="10" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAEAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Utils\GuidHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VideoHosting.Models.Utils.OracleHelper">
+    <Position X="5.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Utils\OracleHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

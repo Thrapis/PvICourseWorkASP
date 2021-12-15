@@ -12,13 +12,11 @@ namespace VideoHosting.Models.Database.Entities
         public int AccountId { get; set; }
         public DateTime ViewDate { get; set; }
         public RateType Rate { get; set; }
-
         public AuthVideoView() 
         {
             ViewDate = DateTime.Now;
             Rate = RateType.None;
         }
-
         public enum RateType 
         {
             Dislike = -1,

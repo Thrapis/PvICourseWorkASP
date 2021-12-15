@@ -11,7 +11,6 @@ namespace VideoHosting.Models.Database.Entities
         public string VideoPageId { get; set; }
         public string IPAddress { get; set; }
         public DateTime ViewDate { get; set; }
-
         public NonAuthVideoView() { ViewDate = DateTime.Now; }
     }
 }

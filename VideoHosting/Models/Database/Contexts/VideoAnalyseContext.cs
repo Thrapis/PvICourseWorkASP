@@ -10,7 +10,7 @@ using VideoHosting.Models.Database.Entities.Statistic;
 
 namespace VideoHosting.Models.Database.Contexts
 {
-    public class VideoAnalyseContext
+    public class VideoAnalyseContext : IDisposable
     {
         private OracleConnection _connection;
 

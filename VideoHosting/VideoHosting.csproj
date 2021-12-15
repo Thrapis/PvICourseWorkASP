@@ -270,6 +270,7 @@
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="App_Code\CommentHelpers.cshtml" />
     <Content Include="App_Code\VideoHelpers.cshtml" />
+    <Content Include="ClassDiagram.cd" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

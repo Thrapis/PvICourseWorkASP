@@ -17,9 +17,7 @@ namespace VideoHosting.Models.Database.Entities
         public long Size { get; set; }
         public int Quality { get; set; }
         public string Format { get; set; }
-
         public VideoSource() { }
-
         public VideoSource(string videoPath, string videoPageId, int quality)
         {
             using (FileStream fs = new FileStream(videoPath, FileMode.Open, FileAccess.Read))
